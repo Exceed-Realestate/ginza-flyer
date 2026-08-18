@@ -42,6 +42,7 @@
   .sheet>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
     object-position:50% 42%;display:block}
   .scrim{position:absolute;left:0;right:0;top:0;pointer-events:none}
+  .fadelayer{position:absolute;left:0;right:0;bottom:0;z-index:3;pointer-events:none}
   .band{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:14mm 12mm 6mm;color:#fff;
     text-shadow:0 1px 6px rgba(4,8,22,.85),0 0 18px rgba(4,8,22,.5)}
 
@@ -121,6 +122,7 @@
   <span class="tb-label">副見出し</span><select id="sub-select"></select>
   <span class="tb-label">リード文</span><select id="lead-select"></select>
   <span class="tb-label">フェード色</span><select id="fade-select"></select>
+  <span class="tb-label">フェード量</span><select id="fadeamt-select"></select>
   <label class="tb-check"><input type="checkbox" id="logo-toggle"> ロゴ</label>
   <label class="tb-check"><input type="checkbox" id="mark-toggle" checked> 社章</label>
   <span class="tb-note">選択は保存されます</span>
@@ -155,6 +157,8 @@ const LEADS = [
  {id:'e',label:'e ／ 常設であること',t:'一日だけの説明会ではありません。<b>常設ですから</b>、何度でも、比べ終わるまでお越しいただけます。'},
  {id:'f',label:'f ／ 見るだけでいい',t:'買う・買わないの前に、<b>まず見る</b>。それだけのために来ていただいて構いません。'},
 ];
+const FADE_AMTS = [{id:'auto',label:'自動 ／ レイアウト既定'}].concat(
+  [10,20,30,40,50,60,70,80,90,100].map(n=>({id:String(n),label:n+'%'})));
 const FADES = [
  {id:'navy',label:'ネイビー ／ 砂漠の夜空',rgb:'11,20,48'},
  {id:'charcoal',label:'チャコール ／ Exceedの地色',rgb:'21,23,28'},
@@ -197,6 +201,7 @@ function sheetHTML(img, lay){
   const subColor  = col==='ink' ? 'var(--ink-s)' : 'rgba(255,255,255,.86)';
   const size = inBand ? Math.min(hd.size,20) : (h.size||hd.size);
   const shadow = col==='white' ? 'text-shadow:0 2px 18px rgba(0,0,0,.6);' : '';
+  const fadeH = (S.fadeamt==='auto' || !S.fadeamt) ? lay.band.h : Number(S.fadeamt);
 
   // 空のスクリム（明るい面に墨文字を置くときだけ起こす）
   const scrim = (!inBand && col==='ink' && h.scrim>0)
@@ -244,7 +249,8 @@ function sheetHTML(img, lay){
     <div class="tag">${img.name.split(' ／')[0]}｜レイアウト${lay.id}</div>
     <img src="${img.file}" alt="${img.name}">
     ${scrim}
-    <div class="band" style="padding-top:${Math.round((lay.band.h-30)*0.62)}mm;background:${grad(fade.rgb)}">${bandInner}
+    <div class="fadelayer" style="height:${fadeH}%;background:${grad(fade.rgb)}"></div>
+    <div class="band" style="padding-top:${Math.max(6,Math.round((fadeH-30)*0.5))}mm">${bandInner}
       <p class="legal">${LEGAL}</p>
     </div>
     <div class="head" style="color:${headColor}">
@@ -268,7 +274,7 @@ function render(){
 
 (function init(){
   Object.assign(S, {image:HEROES[0].id, layout:'all', headline:'2', sub:'a', lead:'a',
-                    fade:'navy', logos:false, mark:true}, load());
+                    fade:'navy', fadeamt:'auto', logos:false, mark:true}, load());
   const iS=document.getElementById('img-select'),
         lS=document.getElementById('layout-select'),
         hS=document.getElementById('headline-select'),
@@ -278,7 +284,8 @@ function render(){
         lg=document.getElementById('logo-toggle'),
         mk=document.getElementById('mark-toggle');
 
-  fill(iS,HEROES,'id','name'); fill(hS,HEADLINES); fill(sS,SUBS); fill(dS,LEADS); fill(fS,FADES);
+  const faS=document.getElementById('fadeamt-select');
+  fill(iS,HEROES,'id','name'); fill(hS,HEADLINES); fill(sS,SUBS); fill(dS,LEADS); fill(fS,FADES); fill(faS,FADE_AMTS);
 
   function syncLayouts(){
     const img = HEROES.find(x=>x.id===S.image)||HEROES[0];
@@ -292,7 +299,7 @@ function render(){
   }
 
   iS.value=S.image; syncLayouts();
-  hS.value=S.headline; sS.value=S.sub; dS.value=S.lead; fS.value=S.fade;
+  hS.value=S.headline; sS.value=S.sub; dS.value=S.lead; fS.value=S.fade; faS.value=S.fadeamt||'auto';
   lg.checked=S.logos; mk.checked=S.mark;
 
   iS.onchange=e=>{S.image=e.target.value; syncLayouts(); save(); render();};
@@ -301,6 +308,7 @@ function render(){
   sS.onchange=e=>{S.sub=e.target.value; save(); render();};
   dS.onchange=e=>{S.lead=e.target.value; save(); render();};
   fS.onchange=e=>{S.fade=e.target.value; save(); render();};
+  faS.onchange=e=>{S.fadeamt=e.target.value; save(); render();};
   lg.onchange=e=>{S.logos=e.target.checked; save(); render();};
   mk.onchange=e=>{S.mark=e.target.checked; save(); render();};
 
