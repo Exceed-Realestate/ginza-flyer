@@ -1330,5 +1330,79 @@
     }
    }
   ]
+ },
+ {
+  "id": "the-threshold",
+  "name": "敷居 ／ THE THRESHOLD",
+  "file": "assets/heroes/the-threshold.jpg",
+  "note": "上4割が継ぎ目のない石壁。ここは\"空きスペース\"ではなく看板面。文字は壁に刻まれたサインとして置く。ガラスの中は左に時計塔、右にブルジュ。銀座からドバイへまたぐ敷居そのものなので、下半分は絶対に隠さない。",
+  "layouts": [
+   {
+    "id": "1",
+    "name": "壁面サイン ／ 石壁に刻む",
+    "head": {
+     "t": 34,
+     "l": 12,
+     "r": 12,
+     "w": null,
+     "align": "center",
+     "color": "ink",
+     "scrim": 0,
+     "size": 24
+    },
+    "band": {
+     "h": 26,
+     "cols": 1
+    }
+   },
+   {
+    "id": "2",
+    "name": "地 ／ 壁は無地のまま残す",
+    "head": {
+     "zone": "band",
+     "color": "white"
+    },
+    "band": {
+     "h": 40,
+     "cols": 1
+    }
+   },
+   {
+    "id": "3",
+    "name": "軒下 ／ 硝子の直上に小さく",
+    "head": {
+     "t": 52,
+     "l": 14,
+     "r": null,
+     "w": 92,
+     "align": "left",
+     "color": "ink",
+     "scrim": 0,
+     "size": 16
+    },
+    "band": {
+     "h": 24,
+     "cols": 1
+    }
+   },
+   {
+    "id": "4",
+    "name": "二段 ／ 壁に見出し、4社は柱に",
+    "head": {
+     "t": 30,
+     "l": 12,
+     "r": null,
+     "w": 120,
+     "align": "left",
+     "color": "ink",
+     "scrim": 0,
+     "size": 22
+    },
+    "band": {
+     "h": 30,
+     "cols": 2
+    }
+   }
+  ]
  }
 ]
