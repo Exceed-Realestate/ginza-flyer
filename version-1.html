@@ -239,6 +239,8 @@
   <select id="bg-select"></select>
   <span class="tb-label">レイアウト ／ Layout</span>
   <select id="layout-select"></select>
+  <span class="tb-label">主見出し ／ Headline</span>
+  <select id="headline-select"></select>
   <span class="tb-note">選択は保存されます</span>
 </div>
 <script>
@@ -309,6 +311,63 @@ const BACKGROUNDS = [
   try { saved = localStorage.getItem('ginza-flyer-layout'); } catch(e){}
   const valid = ['all', ...sheets.map(s => s.n)];
   apply(valid.includes(saved) ? saved : (sheets.length > 1 ? 'all' : sheets[0].n));
+
+  sel.addEventListener('change', e => apply(e.target.value));
+})();
+
+(function(){
+  /* ── 主見出しの差し替え ──
+     size は横組みの基準pt。縦組み（Version 2）は 0.88 倍で当てる。
+     見出しを足すときは HEADLINES に1行足すだけ。 */
+  const HEADLINES = [
+    { id:'1', label:'1 ／ ドバイが、銀座に来ます。',
+      h:'<em>ドバイ</em>が、銀座に来ます。', size:27,
+      sub:'ドバイ主要デベロッパー4社が常設で一堂に会する、日本初のショールーム。10月18日、銀座に開きます。' },
+
+    { id:'2', label:'2 ／ ドバイを、"比べて"選べる場所ができました。',
+      h:'ドバイを、<em>&ldquo;比べて&rdquo;</em><br>選べる場所ができました。', size:21,
+      sub:'ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。' },
+
+    { id:'5', label:'5 ／ 見てから、決める。',
+      h:'見てから、<em>決める</em>。', size:34,
+      sub:'模型と図面を、横に並べて。日本初のドバイ不動産ショールーム、10月18日 銀座開業。' },
+
+    { id:'6', label:'6 ／ 銀座で、ドバイを歩く。',
+      h:'銀座で、<em>ドバイ</em>を歩く。', size:28,
+      sub:'約189㎡のギャラリーに、ドバイ主要デベロッパー4社の常設ブース。10月18日、銀座に開きます。' },
+
+    { id:'7', label:'7 ／ 一日だけの説明会は、もう終わりにしませんか。',
+      h:'一日だけの説明会は、<br><em>もう終わりに</em>しませんか。', size:19,
+      sub:'ドバイ主要デベロッパー4社の常設ショールームが、銀座に。いつでも、何度でも、ご相談いただけます。' },
+
+    { id:'8', label:'8 ／ 模型に、触れます。',
+      h:'<em>模型</em>に、触れます。', size:31,
+      sub:'ドバイ主要デベロッパー4社の模型と図面が、常設で。日本初のショールーム、10月18日 銀座開業。' },
+  ];
+
+  const sel = document.getElementById('headline-select');
+  if(!sel) return;
+  HEADLINES.forEach(x => {
+    const o = document.createElement('option');
+    o.value = x.id; o.textContent = x.label; sel.appendChild(o);
+  });
+
+  function apply(id){
+    const hd = HEADLINES.find(x => x.id === id) || HEADLINES[0];
+    document.querySelectorAll('.sheet h1').forEach(h1 => {
+      h1.innerHTML = hd.h;
+      const vertical = !!h1.closest('.v2');
+      h1.style.fontSize = (vertical ? (hd.size * 0.88).toFixed(1) : hd.size) + 'pt';
+      const sub = h1.nextElementSibling;
+      if(sub && (sub.tagName === 'P' || sub.classList.contains('sub'))) sub.innerHTML = hd.sub;
+    });
+    try { localStorage.setItem('ginza-flyer-headline', hd.id); } catch(e){}
+    sel.value = hd.id;
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem('ginza-flyer-headline'); } catch(e){}
+  apply(HEADLINES.some(x => x.id === saved) ? saved : '2');
 
   sel.addEventListener('change', e => apply(e.target.value));
 })();
