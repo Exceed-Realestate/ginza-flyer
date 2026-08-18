@@ -39,10 +39,41 @@
   /* ── シート ── */
   .sheet{width:182mm;height:257mm;position:relative;overflow:hidden;background:#0B1430;
     box-shadow:0 14px 44px rgba(0,0,0,.5)}
+  /* 素の写真（左）と組んだ版（右）を並べる */
+  .pair{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;justify-content:center}
+  .pair .col{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .pair .col .lbl{font-size:10px;letter-spacing:.18em;color:rgba(255,255,255,.5);text-transform:uppercase}
+  .sheet.bare .tag{background:#3A3F4B}
+  @media print{.pair .col:first-child{display:none}.pair .lbl{display:none}}
   .sheet>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
     object-position:50% 42%;display:block}
   .scrim{position:absolute;left:0;right:0;top:0;pointer-events:none}
   .fadelayer{position:absolute;left:0;right:0;bottom:0;z-index:3;pointer-events:none}
+  /* 壁面モード: 写真の上部（無地の面）に全要素を墨で置く。下半分には一切かからない */
+  .band.onwall{top:0;bottom:auto;color:var(--ink);text-shadow:none;padding:19mm 12mm 0}
+  /* 石壁は上4割しかない。その中に収めるため一段小さく組む */
+  .band.onwall h1{font-size:15.5pt!important;line-height:1.36}
+  .band.onwall .sub{font-size:7.4pt;line-height:1.7;margin-top:2.6mm;margin-bottom:3.4mm!important}
+  .band.onwall .devs li{padding:1.5mm 0}
+  .band.onwall .devs li img{width:70%;max-width:28mm}
+  .band.onwall .reason{margin-top:2.2mm;font-size:6.9pt;line-height:1.62}
+  .band.onwall .cta{margin-top:2.2mm;padding-top:2.2mm}
+  .band.onwall .cta h2{font-size:9.4pt;margin-bottom:1.8mm}
+  .band.onwall .cta table{font-size:6.1pt;line-height:1.62}
+  .band.onwall .cta th{font-size:5.6pt}
+  .band.onwall .legal{margin-top:2.4mm;font-size:4.3pt;line-height:1.5}
+  .band.onwall .devs{border-color:rgba(20,24,31,.28)}
+  .band.onwall .devs li+li{border-left-color:rgba(20,24,31,.2)}
+  .band.onwall .reason{color:var(--ink)}
+  .band.onwall .reason b{color:var(--gold)}
+  .band.onwall .cta{border-top-color:rgba(165,130,47,.5)}
+  .band.onwall .cta h2 em{color:var(--gold)}
+  .band.onwall .cta th{color:rgba(120,95,35,.95)}
+  .band.onwall .fill{background:rgba(20,24,31,.07);border-bottom-color:rgba(165,130,47,.85);color:#6B5520}
+  .band.onwall .legal{color:rgba(20,24,31,.5)}
+  .band.onwall .legal u{border-bottom-color:#A9452F}
+  .band.onwall .qr img{filter:invert(1)}
+  .band.onwall .qr span{color:rgba(20,24,31,.75)}
   .band{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:14mm 12mm 6mm;color:#fff;
     text-shadow:0 1px 6px rgba(4,8,22,.85),0 0 18px rgba(4,8,22,.5)}
 
@@ -105,6 +136,9 @@
   .legal u{text-decoration:none;border-bottom:.3mm dashed #E08A6E}
   .tag{position:absolute;top:0;left:0;background:#A9452F;color:#fff;z-index:9;
     font-size:6.4pt;font-weight:700;padding:1.6px 7px;letter-spacing:.1em}
+  /* 版コード。刷る前に必ず消すが、選定中はこれで指定できる */
+  .vcode{position:absolute;right:0;top:0;z-index:9;background:rgba(17,20,27,.9);color:#DCC189;
+    font-family:var(--roman);font-size:7.4pt;letter-spacing:.22em;padding:2px 8px}
   .note{color:rgba(255,255,255,.5);font-size:11px;max-width:182mm;text-align:center;line-height:1.6}
 </style>
 </head>
@@ -118,15 +152,21 @@
   <span class="tb-label">リード文</span><select id="lead-select"></select>
   <span class="tb-label">フェード色</span><select id="fade-select"></select>
   <span class="tb-label">フェード量</span><select id="fadeamt-select"></select>
+  <span class="tb-label">文字色</span><select id="textcol-select"></select>
   <label class="tb-check"><input type="checkbox" id="logo-toggle"> ロゴ</label>
   <label class="tb-check"><input type="checkbox" id="mark-toggle" checked> 社章</label>
-  <span class="tb-note">選択は保存されます</span>
+  <span class="tb-label">コード</span>
+  <input id="code-input" spellcheck="false" placeholder="例 3F2K9"
+    style="background:#1B1F29;color:#DCC189;border:1px solid rgba(217,184,114,.45);border-radius:3px;
+           padding:6px 9px;font-size:13px;font-family:var(--roman);letter-spacing:.16em;width:96px;
+           text-transform:uppercase">
+  <span class="tb-note">コードを入れるとその組み合わせに戻ります</span>
 </div>
 
 <div id="stage"></div>
 
 <script>
-const HEROES = [{"id": "ginza-vanishing-point", "name": "銀座の消失点 ／ GINZA VANISHING POINT", "file": "assets/heroes/ginza-vanishing-point.jpg", "note": "通りの消失点にブルジュ。左上の空が唯一まとまって空いている。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 35, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 52, "l": 12, "r": null, "w": 96, "align": "left", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 35, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "ginza-corridor", "name": "銀座回廊 ／ GINZA CORRIDOR", "file": "assets/heroes/ginza-corridor.jpg", "note": "完全な左右対称。この一枚だけは中央揃えが効く。空は上40%まるごと無地。", "layouts": [{"id": "1", "name": "中央 ／ 見出しは静かな面へ", "head": {"t": 30, "l": 12, "r": 12, "w": null, "align": "center", "color": "ink", "scrim": 44, "size": 22}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 30, "l": 12, "r": null, "w": 104, "align": "left", "color": "ink", "scrim": 44, "size": 20}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": 12, "r": 12, "w": null, "align": "center", "color": "ink", "scrim": 44, "size": 22}, "band": {"h": 50, "cols": 2}}]}, {"id": "morning-crossing", "name": "朝の交差点 ／ MORNING CROSSING", "file": "assets/heroes/morning-crossing.jpg", "note": "右手前が日陰の石壁。白文字が最も映える面。左上の空も静か。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 32, "l": 12, "r": null, "w": 104, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "右壁 ／ 寄せて余白を作る", "head": {"t": 96, "l": null, "r": 12, "w": 74, "align": "right", "color": "white", "scrim": 0, "size": 18}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 32, "l": 12, "r": null, "w": 104, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "elevated-ginza", "name": "俯瞰の銀座 ／ ELEVATED GINZA", "file": "assets/heroes/elevated-ginza.jpg", "note": "俯瞰。時計塔が左、ブルジュが右上。空は上30%が完全に無地。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 30, "l": null, "r": 12, "w": 112, "align": "right", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 20}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": null, "r": 12, "w": 112, "align": "right", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "clocktower-burj", "name": "時計塔とブルジュ ／ CLOCKTOWER & BURJ", "file": "assets/heroes/clocktower-burj.jpg", "note": "時計塔が右を占める。左上の空が縦に大きく空いており、塔と喧嘩しない。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 34, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 88, "l": 12, "r": null, "w": 88, "align": "left", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 34, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "the-window-day", "name": "ショーウィンドウ・昼 ／ THE WINDOW, DAY", "file": "assets/heroes/the-window-day.jpg", "note": "上部の石の見切りが無地。ガラスの中の模型があるので下半分は隠さない。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 30, "size": 21}, "band": {"h": 44, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 57, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 24, "l": 12, "r": null, "w": 76, "align": "left", "color": "ink", "scrim": 30, "size": 19}, "band": {"h": 39, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 30, "size": 21}, "band": {"h": 44, "cols": 2}}]}, {"id": "the-window-dusk", "name": "ショーウィンドウ・黄昏 ／ THE WINDOW, DUSK", "file": "assets/heroes/the-window-dusk.jpg", "note": "黄昏の空が暗い。白文字をそのまま置ける。模型と夕景は見せ切る。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 44, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 57, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 24, "l": 12, "r": null, "w": 76, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 39, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 44, "cols": 2}}]}, {"id": "the-model", "name": "模型 ／ THE MODEL", "file": "assets/heroes/the-model.jpg", "note": "主役は模型そのもの。左のボケた石面に白文字を置けば模型に触らない。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 96, "l": 12, "r": null, "w": 88, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "iconic-daylight", "name": "白昼の銀座 ／ ICONIC DAYLIGHT", "file": "assets/heroes/iconic-daylight.jpg", "note": "最も静かな空。どこでも成立するが左上が最も広い。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 32, "l": 12, "r": null, "w": 108, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 32, "l": null, "r": 12, "w": 96, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 32, "l": 12, "r": null, "w": 108, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "blue-hour", "name": "青の刻 ／ BLUE HOUR", "file": "assets/heroes/blue-hour.jpg", "note": "夜。紺の空に白文字が最も美しい。濡れた路面は下半分なので帯で隠れてよい。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 112, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 28, "l": null, "r": 12, "w": 96, "align": "right", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 112, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "window-reflection", "name": "硝子の中のドバイ ／ WINDOW REFLECTION", "file": "assets/heroes/window-reflection.jpg", "note": "硝子の中にドバイ。反射像を消さないよう文字は窓枠の外へ逃がす。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 26, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 34, "size": 21}, "band": {"h": 48, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 61, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 90, "l": 12, "r": null, "w": 84, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 43, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 26, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 34, "size": 21}, "band": {"h": 48, "cols": 2}}]}, {"id": "new-office", "name": "新しい執務室 ／ THE NEW OFFICE", "file": "assets/heroes/new-office.jpg", "note": "室内。左の無地の壁が唯一の逃げ場。窓外のドバイと打合せ卓は見せる。", "layouts": [{"id": "1", "name": "壁 ／ 見出しは静かな面へ", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 36, "size": 21}, "band": {"h": 48, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 61, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 84, "l": 12, "r": null, "w": 86, "align": "left", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 43, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 36, "size": 21}, "band": {"h": 48, "cols": 2}}]}, {"id": "office-entrance", "name": "入口 ／ THE ENTRANCE", "file": "assets/heroes/office-entrance.jpg", "note": "淡い石の面積が圧倒的。18枚で最も余白が取れる。見出しを一段大きく。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 30, "l": 12, "r": null, "w": 126, "align": "left", "color": "ink", "scrim": 44, "size": 24}, "band": {"h": 44, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 57, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 30, "l": null, "r": 12, "w": 104, "align": "right", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 39, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": 12, "r": null, "w": 126, "align": "left", "color": "ink", "scrim": 44, "size": 24}, "band": {"h": 44, "cols": 2}}]}, {"id": "elevated-city", "name": "俯瞰の街 ／ ELEVATED CITY", "file": "assets/heroes/elevated-city.jpg", "note": "俯瞰。空が上30%無地。街区のリズムが横に流れるので見出しも横位置。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 110, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 28, "l": null, "r": 12, "w": 94, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 110, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "human-led", "name": "歩く人 ／ HUMAN LED", "file": "assets/heroes/human-led.jpg", "note": "人物が中央下。顔に文字がかからないよう左上へ。視線の先が空くのも good。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 30, "l": null, "r": 12, "w": 88, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "champagne-sunrise", "name": "黎明 ／ CHAMPAGNE SUNRISE", "file": "assets/heroes/champagne-sunrise.jpg", "note": "最も明るい空。墨の明朝が最もよく効く一枚。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 32, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 32, "l": null, "r": 12, "w": 96, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 32, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "architectural-model", "name": "建築模型 ／ ARCHITECTURAL MODEL", "file": "assets/heroes/architectural-model.jpg", "note": "模型と背後の塔。上部のガラス面が暗いので白文字が乗る。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 26, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 46, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 59, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 92, "l": 12, "r": null, "w": 86, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 41, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 26, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 46, "cols": 2}}]}, {"id": "office-beacon", "name": "灯 ／ THE BEACON", "file": "assets/heroes/office-beacon.jpg", "note": "夜。左が暗く右に灯った窓。左上の闇に白文字を置くと灯りが引き立つ。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 92, "l": 12, "r": null, "w": 88, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "the-threshold", "name": "敷居 ／ THE THRESHOLD", "file": "assets/heroes/the-threshold.jpg", "note": "上4割が継ぎ目のない石壁。ここは\"空きスペース\"ではなく看板面。文字は壁に刻まれたサインとして置く。ガラスの中は左に時計塔、右にブルジュ。銀座からドバイへまたぐ敷居そのものなので、下半分は絶対に隠さない。", "layouts": [{"id": "1", "name": "壁面サイン ／ 石壁に刻む", "head": {"t": 34, "l": 12, "r": 12, "w": null, "align": "center", "color": "ink", "scrim": 0, "size": 24}, "band": {"h": 26, "cols": 1}}, {"id": "2", "name": "地 ／ 壁は無地のまま残す", "head": {"zone": "band", "color": "white"}, "band": {"h": 40, "cols": 1}}, {"id": "3", "name": "軒下 ／ 硝子の直上に小さく", "head": {"t": 52, "l": 14, "r": null, "w": 92, "align": "left", "color": "ink", "scrim": 0, "size": 16}, "band": {"h": 24, "cols": 1}}, {"id": "4", "name": "二段 ／ 壁に見出し、4社は柱に", "head": {"t": 30, "l": 12, "r": null, "w": 120, "align": "left", "color": "ink", "scrim": 0, "size": 22}, "band": {"h": 30, "cols": 2}}]}];
+const HEROES = [{"id": "ginza-vanishing-point", "name": "銀座の消失点 ／ GINZA VANISHING POINT", "file": "assets/heroes/ginza-vanishing-point.jpg", "note": "通りの消失点にブルジュ。左上の空が唯一まとまって空いている。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 35, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 52, "l": 12, "r": null, "w": 96, "align": "left", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 35, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "ginza-corridor", "name": "銀座回廊 ／ GINZA CORRIDOR", "file": "assets/heroes/ginza-corridor.jpg", "note": "完全な左右対称。この一枚だけは中央揃えが効く。空は上40%まるごと無地。", "layouts": [{"id": "1", "name": "中央 ／ 見出しは静かな面へ", "head": {"t": 30, "l": 12, "r": 12, "w": null, "align": "center", "color": "ink", "scrim": 44, "size": 22}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 30, "l": 12, "r": null, "w": 104, "align": "left", "color": "ink", "scrim": 44, "size": 20}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": 12, "r": 12, "w": null, "align": "center", "color": "ink", "scrim": 44, "size": 22}, "band": {"h": 50, "cols": 2}}]}, {"id": "morning-crossing", "name": "朝の交差点 ／ MORNING CROSSING", "file": "assets/heroes/morning-crossing.jpg", "note": "右手前が日陰の石壁。白文字が最も映える面。左上の空も静か。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 32, "l": 12, "r": null, "w": 104, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "右壁 ／ 寄せて余白を作る", "head": {"t": 96, "l": null, "r": 12, "w": 74, "align": "right", "color": "white", "scrim": 0, "size": 18}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 32, "l": 12, "r": null, "w": 104, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "elevated-ginza", "name": "俯瞰の銀座 ／ ELEVATED GINZA", "file": "assets/heroes/elevated-ginza.jpg", "note": "俯瞰。時計塔が左、ブルジュが右上。空は上30%が完全に無地。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 30, "l": null, "r": 12, "w": 112, "align": "right", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 20}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": null, "r": 12, "w": 112, "align": "right", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "clocktower-burj", "name": "時計塔とブルジュ ／ CLOCKTOWER & BURJ", "file": "assets/heroes/clocktower-burj.jpg", "note": "時計塔が右を占める。左上の空が縦に大きく空いており、塔と喧嘩しない。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 34, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 88, "l": 12, "r": null, "w": 88, "align": "left", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 34, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "the-window-day", "name": "ショーウィンドウ・昼 ／ THE WINDOW, DAY", "file": "assets/heroes/the-window-day.jpg", "note": "上部の石の見切りが無地。ガラスの中の模型があるので下半分は隠さない。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 30, "size": 21}, "band": {"h": 44, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 57, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 24, "l": 12, "r": null, "w": 76, "align": "left", "color": "ink", "scrim": 30, "size": 19}, "band": {"h": 39, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 30, "size": 21}, "band": {"h": 44, "cols": 2}}]}, {"id": "the-window-dusk", "name": "ショーウィンドウ・黄昏 ／ THE WINDOW, DUSK", "file": "assets/heroes/the-window-dusk.jpg", "note": "黄昏の空が暗い。白文字をそのまま置ける。模型と夕景は見せ切る。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 44, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 57, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 24, "l": 12, "r": null, "w": 76, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 39, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 44, "cols": 2}}]}, {"id": "the-model", "name": "模型 ／ THE MODEL", "file": "assets/heroes/the-model.jpg", "note": "主役は模型そのもの。左のボケた石面に白文字を置けば模型に触らない。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 96, "l": 12, "r": null, "w": 88, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "iconic-daylight", "name": "白昼の銀座 ／ ICONIC DAYLIGHT", "file": "assets/heroes/iconic-daylight.jpg", "note": "最も静かな空。どこでも成立するが左上が最も広い。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 32, "l": 12, "r": null, "w": 108, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 32, "l": null, "r": 12, "w": 96, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 32, "l": 12, "r": null, "w": 108, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "blue-hour", "name": "青の刻 ／ BLUE HOUR", "file": "assets/heroes/blue-hour.jpg", "note": "夜。紺の空に白文字が最も美しい。濡れた路面は下半分なので帯で隠れてよい。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 112, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 28, "l": null, "r": 12, "w": 96, "align": "right", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 112, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "window-reflection", "name": "硝子の中のドバイ ／ WINDOW REFLECTION", "file": "assets/heroes/window-reflection.jpg", "note": "硝子の中にドバイ。反射像を消さないよう文字は窓枠の外へ逃がす。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 26, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 34, "size": 21}, "band": {"h": 48, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 61, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 90, "l": 12, "r": null, "w": 84, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 43, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 26, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 34, "size": 21}, "band": {"h": 48, "cols": 2}}]}, {"id": "new-office", "name": "新しい執務室 ／ THE NEW OFFICE", "file": "assets/heroes/new-office.jpg", "note": "室内。左の無地の壁が唯一の逃げ場。窓外のドバイと打合せ卓は見せる。", "layouts": [{"id": "1", "name": "壁 ／ 見出しは静かな面へ", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 36, "size": 21}, "band": {"h": 48, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 61, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 84, "l": 12, "r": null, "w": 86, "align": "left", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 43, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 36, "size": 21}, "band": {"h": 48, "cols": 2}}]}, {"id": "elevated-city", "name": "俯瞰の街 ／ ELEVATED CITY", "file": "assets/heroes/elevated-city.jpg", "note": "俯瞰。空が上30%無地。街区のリズムが横に流れるので見出しも横位置。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 110, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 28, "l": null, "r": 12, "w": 94, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 110, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "human-led", "name": "歩く人 ／ HUMAN LED", "file": "assets/heroes/human-led.jpg", "note": "人物が中央下。顔に文字がかからないよう左上へ。視線の先が空くのも good。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 30, "l": null, "r": 12, "w": 88, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "champagne-sunrise", "name": "黎明 ／ CHAMPAGNE SUNRISE", "file": "assets/heroes/champagne-sunrise.jpg", "note": "最も明るい空。墨の明朝が最もよく効く一枚。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 32, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 32, "l": null, "r": 12, "w": 96, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 32, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "architectural-model", "name": "建築模型 ／ ARCHITECTURAL MODEL", "file": "assets/heroes/architectural-model.jpg", "note": "模型と背後の塔。上部のガラス面が暗いので白文字が乗る。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 26, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 46, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 59, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 92, "l": 12, "r": null, "w": 86, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 41, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 26, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 46, "cols": 2}}]}, {"id": "office-beacon", "name": "灯 ／ THE BEACON", "file": "assets/heroes/office-beacon.jpg", "note": "夜。左が暗く右に灯った窓。左上の闇に白文字を置くと灯りが引き立つ。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 92, "l": 12, "r": null, "w": 88, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "the-threshold", "name": "入口・敷居 ／ THE THRESHOLD", "file": "assets/heroes/the-threshold.jpg", "note": "上4割が継ぎ目のない石壁。ここは\"空きスペース\"ではなく看板面。文字は壁に刻まれたサインとして置く。ガラスの中は左に時計塔、右にブルジュ。銀座からドバイへまたぐ敷居そのものなので、下半分は絶対に隠さない。", "layouts": [{"id": "1", "name": "壁面サイン ／ 石壁に刻む", "head": {"t": 34, "l": 12, "r": 12, "w": null, "align": "center", "color": "ink", "scrim": 0, "size": 24}, "band": {"h": 26, "cols": 1}}, {"id": "2", "name": "地 ／ 壁は無地のまま残す", "head": {"zone": "band", "color": "white"}, "band": {"h": 40, "cols": 1}}, {"id": "3", "name": "軒下 ／ 硝子の直上に小さく", "head": {"t": 52, "l": 14, "r": null, "w": 92, "align": "left", "color": "ink", "scrim": 0, "size": 16}, "band": {"h": 24, "cols": 1}}, {"id": "4", "name": "二段 ／ 壁に見出し、4社は柱に", "head": {"t": 30, "l": 12, "r": null, "w": 120, "align": "left", "color": "ink", "scrim": 0, "size": 22}, "band": {"h": 30, "cols": 2}}, {"id": "5", "name": "壁面完結 ／ すべてを石壁に、下は無傷", "head": {"zone": "band", "color": "ink"}, "band": {"h": 0, "cols": 1, "pos": "top"}}]}, {"id": "threshold-branded", "name": "敷居・ロゴ入り ／ THE THRESHOLD, BRANDED", "file": "assets/heroes/threshold-branded.jpg", "noDevs": true, "note": "硝子に4社のロゴがすでに焼き込まれている一枚。紙面で社名を繰り返すと二重になるので、この画像だけデベロッパー欄を出さない。上4割の石壁は看板面、硝子の中（時計塔・ブルジュ・ロゴ）は隠さない。", "layouts": [{"id": "1", "name": "壁面サイン ／ 石壁に刻む", "head": {"t": 34, "l": 12, "r": 12, "w": null, "align": "center", "color": "ink", "scrim": 0, "size": 24}, "band": {"h": 24, "cols": 1}}, {"id": "2", "name": "壁面完結 ／ すべてを石壁に、下は無傷", "head": {"zone": "band", "color": "ink"}, "band": {"h": 0, "cols": 1, "pos": "top"}}, {"id": "3", "name": "軒下 ／ 硝子の直上に小さく", "head": {"t": 52, "l": 14, "r": null, "w": 92, "align": "left", "color": "ink", "scrim": 0, "size": 16}, "band": {"h": 22, "cols": 1}}, {"id": "4", "name": "地 ／ 壁は無地のまま残す", "head": {"zone": "band", "color": "white"}, "band": {"h": 36, "cols": 1}}]}];
 
 const HEADLINES = [
  {id:'1',label:'1 ／ ドバイが、銀座に来ます。',h:'<em>ドバイ</em>が、銀座に来ます。',size:27},
@@ -152,6 +192,17 @@ const LEADS = [
  {id:'e',label:'e ／ 常設であること',t:'一日だけの説明会ではありません。<b>常設ですから</b>、何度でも、比べ終わるまでお越しいただけます。'},
  {id:'f',label:'f ／ 見るだけでいい',t:'買う・買わないの前に、<b>まず見る</b>。それだけのために来ていただいて構いません。'},
 ];
+/* 見出し（主見出し＋副見出し＋強調）の文字色。
+   自動＝写真ごとに決めた既定（明るい面は墨、暗い面は白）。 */
+const TEXT_COLORS = [
+  {id:'auto',   label:'自動 ／ 写真に合わせる', c:null,        em:null},
+  {id:'white',  label:'白 ／ 暗い写真に',       c:'#FFFFFF',   em:'#DCC189'},
+  {id:'cream',  label:'生成り ／ 白より柔らかい', c:'#F2E8D6',   em:'#D9B872'},
+  {id:'ink',    label:'墨 ／ 明るい写真に',      c:'#10131A',   em:'#A5822F'},
+  {id:'navy',   label:'ネイビー ／ 明るい写真に', c:'#12224C',   em:'#A5822F'},
+  {id:'gold',   label:'金 ／ 見出しごと金にする', c:'#C9A961',   em:'#F0DCAE'},
+  {id:'bronze', label:'ブロンズ ／ 淡い石壁に',   c:'#7A5C25',   em:'#A5822F'},
+];
 const FADE_AMTS = [{id:'auto',label:'自動 ／ レイアウト既定'}].concat(
   [10,20,30,40,50,60,70,80,90,100].map(n=>({id:String(n),label:n+'%'})));
 const FADES = [
@@ -169,6 +220,46 @@ const ADDR='東京都中央区銀座5-9-1 銀座コティビル <span class="fil
 const LEGAL='※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u>';
 
 const S={}; // 選択状態
+
+/* ── 版コード ────────────────────────────────
+   全セレクタを混合基数で1つの整数に畳み、base36 5桁で表す。
+   可逆なので、コードを入れれば同じ組み合わせに戻せる。 */
+const AXES = [
+  {k:'image',    vals:()=>HEROES.map(h=>h.id)},
+  {k:'layout',   vals:()=>['all','1','2','3','4','5']},
+  {k:'headline', vals:()=>HEADLINES.map(x=>x.id)},
+  {k:'sub',      vals:()=>SUBS.map(x=>x.id)},
+  {k:'lead',     vals:()=>LEADS.map(x=>x.id)},
+  {k:'fade',     vals:()=>FADES.map(x=>x.id)},
+  {k:'fadeamt',  vals:()=>FADE_AMTS.map(x=>x.id)},
+  {k:'textcol',  vals:()=>TEXT_COLORS.map(x=>x.id)},
+  {k:'logos',    vals:()=>['0','1']},
+  {k:'mark',     vals:()=>['0','1']},
+];
+function stateVal(a){
+  const v=S[a.k];
+  if(a.k==='logos'||a.k==='mark') return v?'1':'0';
+  return v==null ? a.vals()[0] : String(v);
+}
+function encodeCode(){
+  let n=0;
+  for(const a of AXES){
+    const vs=a.vals(); let i=vs.indexOf(stateVal(a)); if(i<0) i=0;
+    n = n*vs.length + i;
+  }
+  return n.toString(36).toUpperCase().padStart(5,'0');
+}
+function decodeCode(code){
+  let n=parseInt(String(code).trim().toUpperCase(),36);
+  if(!isFinite(n)||n<0) return null;
+  const out={};
+  for(let j=AXES.length-1;j>=0;j--){
+    const a=AXES[j], vs=a.vals();
+    const i=n%vs.length; n=Math.floor(n/vs.length);
+    out[a.k] = (a.k==='logos'||a.k==='mark') ? vs[i]==='1' : vs[i];
+  }
+  return n===0 ? out : null;
+}
 function save(){ try{ localStorage.setItem('ginza-flyer-v2', JSON.stringify(S)); }catch(e){} }
 function load(){ try{ return JSON.parse(localStorage.getItem('ginza-flyer-v2'))||{}; }catch(e){ return {}; } }
 
@@ -178,25 +269,33 @@ function fill(el,arr,valKey='id',txtKey='label'){
 }
 function grad(rgb){ return 'linear-gradient(180deg,'+STOPS.map(([p,a])=>`rgba(${rgb},${a}) ${p}%`).join(',')+')'; }
 
-function devList(){
+function devList(onWall, skip){
+  if(skip) return '';
+  const suffix = onWall ? '-norm-ink' : '-norm';
   return '<ul class="devs">'+DEVS.map(([n,slug])=>
-    S.logos ? `<li data-name="${n}"><img src="assets/logos/${slug}-norm.png" alt="${n}"></li>`
+    S.logos ? `<li data-name="${n}"><img src="assets/logos/${slug}${suffix}.png" alt="${n}"></li>`
             : `<li data-name="${n}">${n}</li>`).join('')+'</ul>';
 }
 
+function codeFor(lay){
+  const keep=S.layout; S.layout=lay.id; const c=encodeCode(); S.layout=keep; return c;
+}
 function sheetHTML(img, lay){
   const hd = HEADLINES.find(x=>x.id===S.headline)||HEADLINES[1];
   const sub = SUBS.find(x=>x.id===S.sub)||SUBS[0];
   const lead = LEADS.find(x=>x.id===S.lead)||LEADS[0];
   const fade = FADES.find(x=>x.id===S.fade)||FADES[0];
+  const tc = TEXT_COLORS.find(x=>x.id===S.textcol) || TEXT_COLORS[0];
   const h = lay.head;
   const inBand = h.zone==='band';
   const col = inBand ? 'white' : (h.color||'ink');
-  const textColor = col==='ink' ? 'var(--ink)' : '#fff';
-  const subColor  = col==='ink' ? 'var(--ink-s)' : 'rgba(255,255,255,.86)';
+  const textColor = tc.c || (col==='ink' ? 'var(--ink)' : '#fff');
+  const subColor  = tc.c ? tc.c : (col==='ink' ? 'var(--ink-s)' : 'rgba(255,255,255,.86)');
+  const emColor   = tc.em || '';
   const size = inBand ? Math.min(hd.size,20) : (h.size||hd.size);
   const shadow = col==='white' ? 'text-shadow:0 2px 18px rgba(0,0,0,.6);' : '';
   const fadeH = (S.fadeamt==='auto' || !S.fadeamt) ? lay.band.h : Number(S.fadeamt);
+  const onWall = lay.band.pos==='top';
 
   // 空のスクリム（明るい面に墨文字を置くときだけ起こす）
   const scrim = (!inBand && col==='ink' && h.scrim>0)
@@ -210,14 +309,14 @@ function sheetHTML(img, lay){
   const headBlock = `
     <div class="lead" data-align="${h.align||'left'}" style="${pos}">
       <div class="bar"></div>
-      <h1 style="font-size:${size}pt;${shadow}">${hd.h}</h1>
-      <p class="sub" style="color:${subColor};${shadow}">${sub.t}</p>
+      <h1 style="font-size:${size}pt;${shadow}${emColor?`--gold:${emColor};--gold-l:${emColor};`:''}">${hd.h}</h1>
+      <p class="sub" style="color:${subColor};${shadow}opacity:${tc.c?0.88:1}">${sub.t}</p>
     </div>`;
 
   const bandHead = inBand ? `
     <div class="bar"></div>
-    <h1 style="font-size:${Math.min(hd.size,20)}pt;margin-bottom:1mm">${hd.h}</h1>
-    <p class="sub" style="color:rgba(255,255,255,.84);margin-bottom:5mm">${sub.t}</p>` : '';
+    <h1 style="font-size:${Math.min(hd.size,20)}pt;margin-bottom:1mm;${tc.c?`color:${tc.c};`:''}${emColor?`--gold-l:${emColor};`:''}">${hd.h}</h1>
+    <p class="sub" style="color:${tc.c||'rgba(255,255,255,.84)'};margin-bottom:5mm">${sub.t}</p>` : '';
 
   const body = `
     <p class="reason">${lead.t}</p>
@@ -233,8 +332,8 @@ function sheetHTML(img, lay){
     </div>`;
 
   const bandInner = lay.band.cols===2
-    ? `${bandHead}<div class="cols2"><div>${devList()}</div><div>${body}</div></div>`
-    : `${bandHead}${devList()}${body}`;
+    ? `${bandHead}<div class="cols2"><div>${devList(onWall, img.noDevs)}</div><div>${body}</div></div>`
+    : `${bandHead}${devList(onWall, img.noDevs)}${body}`;
 
   const markStyle = S.mark ? '' : 'display:none;';
   const headColor = col==='ink' && !inBand ? 'var(--ink)' : (h.t!=null&&h.t<20?'#fff':'var(--ink)');
@@ -242,10 +341,11 @@ function sheetHTML(img, lay){
   return `
   <section class="sheet">
     <div class="tag">${img.name.split(' ／')[0]}｜レイアウト${lay.id}</div>
+    <div class="vcode">${codeFor(lay)}</div>
     <img src="${img.file}" alt="${img.name}">
     ${scrim}
-    <div class="fadelayer" style="height:${fadeH}%;background:${grad(fade.rgb)}"></div>
-    <div class="band" style="padding-top:${Math.max(6,Math.round((fadeH-30)*0.5))}mm">${bandInner}
+    ${onWall ? '' : `<div class="fadelayer" style="height:${fadeH}%;background:${grad(fade.rgb)}"></div>`}
+    <div class="band${onWall?' onwall':''}" style="${onWall?'':`padding-top:${Math.max(6,Math.round((fadeH-30)*0.5))}mm`}">${bandInner}
       <p class="legal">${LEGAL}</p>
     </div>
     <div class="head" style="color:${headColor}">
@@ -264,12 +364,17 @@ function render(){
   const stage = document.getElementById('stage');
   const lays = S.layout==='all' ? img.layouts : img.layouts.filter(l=>l.id===S.layout);
   stage.innerHTML = `<div class="note">${img.note}</div>` +
-    lays.map(l=>`<div class="cap">レイアウト ${l.id} ／ <span>${l.name.split(' ／ ')[1]||''}</span></div>${sheetHTML(img,l)}`).join('');
+    lays.map(l=>`<div class="cap">レイアウト ${l.id} ／ <span>${l.name.split(' ／ ')[1]||''}</span></div>
+      <div class="pair">
+        <div class="col"><span class="lbl">素の写真</span>
+          <section class="sheet bare"><img src="${img.file}" alt="${img.name}"></section></div>
+        <div class="col"><span class="lbl">組んだ版</span>${sheetHTML(img,l)}</div>
+      </div>`).join('');
 }
 
 (function init(){
   Object.assign(S, {image:HEROES[0].id, layout:'all', headline:'2', sub:'a', lead:'a',
-                    fade:'navy', fadeamt:'auto', logos:false, mark:true}, load());
+                    fade:'navy', fadeamt:'auto', textcol:'auto', logos:false, mark:true}, load());
   const iS=document.getElementById('img-select'),
         lS=document.getElementById('layout-select'),
         hS=document.getElementById('headline-select'),
@@ -280,7 +385,8 @@ function render(){
         mk=document.getElementById('mark-toggle');
 
   const faS=document.getElementById('fadeamt-select');
-  fill(iS,HEROES,'id','name'); fill(hS,HEADLINES); fill(sS,SUBS); fill(dS,LEADS); fill(fS,FADES); fill(faS,FADE_AMTS);
+  fill(iS,HEROES,'id','name'); fill(hS,HEADLINES); fill(sS,SUBS); fill(dS,LEADS); const tcS=document.getElementById('textcol-select');
+  fill(fS,FADES); fill(faS,FADE_AMTS); fill(tcS,TEXT_COLORS);
 
   function syncLayouts(){
     const img = HEROES.find(x=>x.id===S.image)||HEROES[0];
@@ -294,7 +400,7 @@ function render(){
   }
 
   iS.value=S.image; syncLayouts();
-  hS.value=S.headline; sS.value=S.sub; dS.value=S.lead; fS.value=S.fade; faS.value=S.fadeamt||'auto';
+  hS.value=S.headline; sS.value=S.sub; dS.value=S.lead; fS.value=S.fade; faS.value=S.fadeamt||'auto'; tcS.value=S.textcol||'auto';
   lg.checked=S.logos; mk.checked=S.mark;
 
   iS.onchange=e=>{S.image=e.target.value; syncLayouts(); save(); render();};
@@ -304,8 +410,22 @@ function render(){
   dS.onchange=e=>{S.lead=e.target.value; save(); render();};
   fS.onchange=e=>{S.fade=e.target.value; save(); render();};
   faS.onchange=e=>{S.fadeamt=e.target.value; save(); render();};
+  tcS.onchange=e=>{S.textcol=e.target.value; save(); render();};
   lg.onchange=e=>{S.logos=e.target.checked; save(); render();};
   mk.onchange=e=>{S.mark=e.target.checked; save(); render();};
+
+  const ci=document.getElementById('code-input');
+  function refreshCode(){ ci.value = encodeCode(); }
+  ci.addEventListener('change', ()=>{
+    const st = decodeCode(ci.value);
+    if(!st){ ci.style.borderColor='#C0392B'; setTimeout(()=>ci.style.borderColor='rgba(217,184,114,.45)',900); refreshCode(); return; }
+    Object.assign(S, st);
+    iS.value=S.image; syncLayouts(); hS.value=S.headline; sS.value=S.sub; dS.value=S.lead;
+    fS.value=S.fade; faS.value=S.fadeamt; tcS.value=S.textcol; lg.checked=S.logos; mk.checked=S.mark;
+    save(); render(); refreshCode();
+  });
+  const _render = render;
+  render = function(){ _render(); refreshCode(); };
 
   render();
 })();

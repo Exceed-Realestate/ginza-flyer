@@ -888,80 +888,6 @@
   ]
  },
  {
-  "id": "office-entrance",
-  "name": "入口 ／ THE ENTRANCE",
-  "file": "assets/heroes/office-entrance.jpg",
-  "note": "淡い石の面積が圧倒的。18枚で最も余白が取れる。見出しを一段大きく。",
-  "layouts": [
-   {
-    "id": "1",
-    "name": "天 ／ 見出しは静かな面へ",
-    "head": {
-     "t": 30,
-     "l": 12,
-     "r": null,
-     "w": 126,
-     "align": "left",
-     "color": "ink",
-     "scrim": 44,
-     "size": 24
-    },
-    "band": {
-     "h": 44,
-     "cols": 1
-    }
-   },
-   {
-    "id": "2",
-    "name": "地 ／ 写真は無傷、文字は下に",
-    "head": {
-     "zone": "band",
-     "color": "white"
-    },
-    "band": {
-     "h": 57,
-     "cols": 1
-    }
-   },
-   {
-    "id": "3",
-    "name": "側 ／ 寄せて余白を作る",
-    "head": {
-     "t": 30,
-     "l": null,
-     "r": 12,
-     "w": 104,
-     "align": "right",
-     "color": "ink",
-     "scrim": 44,
-     "size": 21
-    },
-    "band": {
-     "h": 39,
-     "cols": 1
-    }
-   },
-   {
-    "id": "4",
-    "name": "二段 ／ 4社を柱に立てる",
-    "head": {
-     "t": 30,
-     "l": 12,
-     "r": null,
-     "w": 126,
-     "align": "left",
-     "color": "ink",
-     "scrim": 44,
-     "size": 24
-    },
-    "band": {
-     "h": 44,
-     "cols": 2
-    }
-   }
-  ]
- },
- {
   "id": "elevated-city",
   "name": "俯瞰の街 ／ ELEVATED CITY",
   "file": "assets/heroes/elevated-city.jpg",
@@ -1333,7 +1259,7 @@
  },
  {
   "id": "the-threshold",
-  "name": "敷居 ／ THE THRESHOLD",
+  "name": "入口・敷居 ／ THE THRESHOLD",
   "file": "assets/heroes/the-threshold.jpg",
   "note": "上4割が継ぎ目のない石壁。ここは\"空きスペース\"ではなく看板面。文字は壁に刻まれたサインとして置く。ガラスの中は左に時計塔、右にブルジュ。銀座からドバイへまたぐ敷居そのものなので、下半分は絶対に隠さない。",
   "layouts": [
@@ -1401,6 +1327,89 @@
     "band": {
      "h": 30,
      "cols": 2
+    }
+   },
+   {
+    "id": "5",
+    "name": "壁面完結 ／ すべてを石壁に、下は無傷",
+    "head": {
+     "zone": "band",
+     "color": "ink"
+    },
+    "band": {
+     "h": 0,
+     "cols": 1,
+     "pos": "top"
+    }
+   }
+  ]
+ },
+ {
+  "id": "threshold-branded",
+  "name": "敷居・ロゴ入り ／ THE THRESHOLD, BRANDED",
+  "file": "assets/heroes/threshold-branded.jpg",
+  "noDevs": true,
+  "note": "硝子に4社のロゴがすでに焼き込まれている一枚。紙面で社名を繰り返すと二重になるので、この画像だけデベロッパー欄を出さない。上4割の石壁は看板面、硝子の中（時計塔・ブルジュ・ロゴ）は隠さない。",
+  "layouts": [
+   {
+    "id": "1",
+    "name": "壁面サイン ／ 石壁に刻む",
+    "head": {
+     "t": 34,
+     "l": 12,
+     "r": 12,
+     "w": null,
+     "align": "center",
+     "color": "ink",
+     "scrim": 0,
+     "size": 24
+    },
+    "band": {
+     "h": 24,
+     "cols": 1
+    }
+   },
+   {
+    "id": "2",
+    "name": "壁面完結 ／ すべてを石壁に、下は無傷",
+    "head": {
+     "zone": "band",
+     "color": "ink"
+    },
+    "band": {
+     "h": 0,
+     "cols": 1,
+     "pos": "top"
+    }
+   },
+   {
+    "id": "3",
+    "name": "軒下 ／ 硝子の直上に小さく",
+    "head": {
+     "t": 52,
+     "l": 14,
+     "r": null,
+     "w": 92,
+     "align": "left",
+     "color": "ink",
+     "scrim": 0,
+     "size": 16
+    },
+    "band": {
+     "h": 22,
+     "cols": 1
+    }
+   },
+   {
+    "id": "4",
+    "name": "地 ／ 壁は無地のまま残す",
+    "head": {
+     "zone": "band",
+     "color": "white"
+    },
+    "band": {
+     "h": 36,
+     "cols": 1
     }
    }
   ]
