@@ -2,734 +2,310 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>銀座チラシ B5 — Version 1〜3 — EXCEED 銀座 B5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>銀座セールスギャラリー チラシ B5 — 18枚 × 4レイアウト</title>
 <style>
-  /* ═══════════════════════════════════════════════════════
-     A案の写真・フェードはそのまま。文字の置き方だけ4通り。
-     V1 中央揃え ／ V2 縦組み ／ V3 全部下 ／ V4 左柱・非対称
-     B5 片面 182 × 257 mm
-     ═══════════════════════════════════════════════════════ */
   @page { size: 182mm 257mm; margin: 0; }
-
   :root{
-    --gold:   #A5822F;
-    --gold-l: #DCC189;
-    --ink:    #10131A;
-    --ink-s:  #3E434E;
-    --navy:   #0B1430;
-
+    --gold:#A5822F; --gold-l:#DCC189; --ink:#10131A; --ink-s:#3E434E;
     --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
     --gothic:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-    --roman: "Didot","Bodoni 72","Baskerville",serif;
+    --roman:"Didot","Bodoni 72","Baskerville",serif;
   }
-  *{ box-sizing:border-box; margin:0; padding:0; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#4E4E51;padding:26px;padding-top:110px;display:flex;flex-direction:column;
+       align-items:center;gap:10px;font-family:var(--gothic);-webkit-font-smoothing:antialiased}
 
-  body{
-    background:#4E4E51; padding:26px; display:flex; flex-direction:column;
-    align-items:center; gap:10px; font-family:var(--gothic);
-    -webkit-font-smoothing:antialiased;
-  }
-  .cap{
-    color:#fff; font-size:12px; letter-spacing:.16em; opacity:.9;
-    margin-top:16px; font-weight:700;
-  }
-  .cap span{ font-weight:400; opacity:.6; letter-spacing:.06em; }
-
-  .sheet{
-    width:182mm; height:257mm; position:relative; overflow:hidden;
-    background:#0B1430; box-shadow:0 14px 44px rgba(0,0,0,.5);
-  }
-  .sheet > img{
-    position:absolute; inset:0; width:100%; height:100%;
-    object-fit:cover; object-position:50% 34%; display:block;
-  }
-  .sky{
-    position:absolute; left:0; right:0; top:0; height:44%;
-    background:linear-gradient(180deg,
-      rgba(255,255,255,.86) 0%, rgba(255,255,255,.72) 34%,
-      rgba(255,255,255,.34) 68%, rgba(255,255,255,0) 100%);
-  }
-  .band{
-    position:absolute; left:0; right:0; bottom:0; z-index:4;
-    padding:14mm 12mm 6mm; color:#fff;
-    text-shadow:0 1px 6px rgba(4,8,22,.85), 0 0 18px rgba(4,8,22,.55);
-    background:linear-gradient(180deg,
-      rgba(11,20,48,0) 0%, rgba(11,20,48,.24) 6%, rgba(11,20,48,.50) 14%,
-      rgba(11,20,48,.68) 24%, rgba(11,20,48,.82) 42%, rgba(11,20,48,.90) 62%,
-      rgba(11,20,48,.93) 100%);
-  }
-
-  /* 共通パーツ */
-  .head{
-    position:absolute; top:9mm; left:12mm; right:12mm; z-index:5;
-    display:flex; justify-content:space-between; align-items:flex-start;
-  }
-  .brand{ font-family:var(--roman); font-size:11.5pt; letter-spacing:.34em; color:var(--ink); }
-  .brand small{
-    display:block; font-family:var(--gothic); font-size:5.6pt; letter-spacing:.20em;
-    color:var(--ink-s); margin-top:1.1mm;
-  }
-  .open{ text-align:right; }
-  .open .k{ font-size:6.4pt; letter-spacing:.24em; color:var(--gold); font-weight:700; margin-bottom:1.1mm; }
-  .open .d{ font-family:var(--roman); font-size:19pt; line-height:1; color:var(--ink); letter-spacing:.02em; }
-  .open .w{ font-size:6pt; letter-spacing:.24em; color:var(--ink-s); margin-top:.9mm; }
-
-  h1{
-    font-family:var(--mincho); font-weight:600; font-size:21pt; line-height:1.48;
-    letter-spacing:.03em; font-feature-settings:"palt" 1;
-  }
-  h1 em{ font-style:normal; color:var(--gold); }
-  .bar{ width:15mm; height:.45mm; background:var(--gold); }
-
-  .devs{ display:flex; list-style:none;
-    border-top:.3mm solid rgba(255,255,255,.34);
-    border-bottom:.3mm solid rgba(255,255,255,.34); }
-  .devs li{ flex:1; text-align:center; padding:2.8mm 0; font-family:var(--roman);
-    font-size:11.5pt; letter-spacing:.10em; color:#fff; }
-  .devs li + li{ border-left:.3mm solid rgba(255,255,255,.24); }
-
-  .reason{ font-family:var(--mincho); font-size:8.4pt; line-height:1.8;
-    letter-spacing:.04em; color:rgba(255,255,255,.92); }
-  .reason b{ font-weight:600; color:var(--gold-l); }
-
-  .cta h2{ font-family:var(--mincho); font-size:11pt; font-weight:600;
-    letter-spacing:.05em; margin-bottom:2.2mm; }
-  .cta h2 em{ font-style:normal; color:var(--gold-l); }
-  .cta table{ border-collapse:collapse; font-size:7.4pt; line-height:1.88; }
-  .cta th{ text-align:left; font-size:6.2pt; letter-spacing:.18em;
-    color:rgba(220,193,137,.9); font-weight:700; padding-right:3.6mm;
-    white-space:nowrap; vertical-align:top; }
-  .fill{ background:rgba(255,255,255,.14);
-    border-bottom:.3mm dashed rgba(220,193,137,.8); padding:0 1.7mm; color:#F0D9A8; }
-  .qr{ background:transparent; padding:0; text-align:center; }
-  .qr img{ width:100%; display:block; }
-  .qr span{ display:block; margin-top:1.6mm; font-size:5.4pt; letter-spacing:.14em; color:rgba(255,255,255,.86); }
-  .legal{ font-size:4.9pt; line-height:1.6; color:rgba(255,255,255,.52); }
-  .legal u{ text-decoration:none; border-bottom:.3mm dashed #E08A6E; }
-
-  /* ── V1 中央揃え ───────────────────────────────── */
-  .v1 .lead{ position:absolute; top:26mm; left:12mm; right:12mm; z-index:5; text-align:center; }
-  .v1 .lead .bar{ margin:0 auto 4.2mm; }
-  .v1 .lead h1{ color:var(--ink); }
-  .v1 .lead p{ margin-top:3.4mm; font-size:8.4pt; line-height:1.8;
-    letter-spacing:.07em; color:var(--ink-s); }
-  .v1 .band{ text-align:center; }
-  .v1 .reason{ margin-top:4mm; }
-  .v1 .cta{ margin-top:4.4mm; padding-top:3.8mm;
-    border-top:.3mm solid rgba(220,193,137,.5); }
-  .v1 .cta table{ margin:0 auto; text-align:left; }
-  .v1 .qr{ width:19mm; margin:3.4mm auto 0; }
-  .v1 .legal{ margin-top:3.4mm; text-align:left; }
-
-  /* ── V2 縦組み ─────────────────────────────────── */
-  .v2 .tate{
-    position:absolute; top:30mm; right:12mm; z-index:5;
-    writing-mode:vertical-rl; text-orientation:mixed;
-    display:flex; flex-direction:row; gap:4.5mm; align-items:flex-start;
-  }
-  .v2 .tate h1{ font-size:19pt; line-height:1.75; letter-spacing:.10em; color:var(--ink); }
-  .v2 .tate .sub{ font-size:8pt; line-height:1.95; letter-spacing:.12em; color:var(--ink-s); }
-  .v2 .tate .dot{ width:1.6mm; height:1.6mm; border-radius:50%;
-    background:var(--gold); flex:none; margin-top:1mm; }
-  .v2 .band{ padding-top:13mm; }
-  .v2 .reason{ margin-top:3.8mm; }
-  .v2 .cta{ margin-top:4mm; padding-top:3.6mm;
-    border-top:.3mm solid rgba(220,193,137,.5);
-    display:grid; grid-template-columns:1fr 19mm; gap:5.5mm; align-items:center; }
-  .v2 .legal{ margin-top:3.4mm; }
-
-  /* ── V3 全部下（空は無傷） ──────────────────────── */
-  .v3 .band{
-    padding-top:20mm;
-    background:linear-gradient(180deg,
-      rgba(11,20,48,0) 0%, rgba(11,20,48,.20) 5%, rgba(11,20,48,.48) 13%,
-      rgba(11,20,48,.70) 22%, rgba(11,20,48,.85) 38%, rgba(11,20,48,.92) 60%,
-      rgba(11,20,48,.95) 100%);
-  }
-  .v3 .band .bar{ margin-bottom:4mm; }
-  .v3 .band h1{ color:#fff; font-size:20pt; }
-  .v3 .band .sub{ margin-top:3.2mm; font-size:8.2pt; line-height:1.8;
-    letter-spacing:.07em; color:rgba(255,255,255,.84); }
-  .v3 .devs{ margin-top:5mm; }
-  .v3 .reason{ margin-top:3.6mm; }
-  .v3 .cta{ margin-top:3.8mm; padding-top:3.4mm;
-    border-top:.3mm solid rgba(220,193,137,.5);
-    display:grid; grid-template-columns:1fr 19mm; gap:5.5mm; align-items:center; }
-  .v3 .legal{ margin-top:3.2mm; }
-
-  /* ── V4 左柱・非対称 ───────────────────────────── */
-  .v4 .lead{ position:absolute; top:35mm; left:12mm; width:104mm; z-index:5;
-    border-left:.5mm solid var(--gold); padding-left:6mm; }
-  .v4 .lead h1{ color:var(--ink); font-size:20pt; }
-  .v4 .lead p{ margin-top:3.2mm; font-size:8.2pt; line-height:1.8;
-    letter-spacing:.07em; color:var(--ink-s); }
-  .v4 .band{ padding-top:13mm; display:grid;
-    grid-template-columns:44mm 1fr; gap:7mm; align-items:end; }
-  .v4 .col-l .k{ font-size:6pt; letter-spacing:.28em; color:var(--gold-l);
-    font-weight:700; margin-bottom:2.6mm; }
-  .v4 .col-l ul{ list-style:none; }
-  .v4 .col-l li{ font-family:var(--roman); font-size:11.5pt; letter-spacing:.10em;
-    color:#fff; padding:2mm 0; border-bottom:.3mm solid rgba(255,255,255,.24); }
-  .v4 .col-l li:first-child{ border-top:.3mm solid rgba(255,255,255,.34); }
-  .v4 .col-r .reason{ margin-bottom:3.6mm; }
-  .v4 .col-r .cta{ padding-top:3.4mm; border-top:.3mm solid rgba(220,193,137,.5);
-    display:grid; grid-template-columns:1fr 19mm; gap:5mm; align-items:center; }
-  .v4 .legal{ grid-column:1 / -1; margin-top:3.2mm; }
-
-  .tag{
-    position:absolute; top:0; left:0; background:#A9452F; color:#fff; z-index:9;
-    font-size:6.6pt; font-weight:700; padding:1.6px 7px; letter-spacing:.10em;
-  }
-
-  /* ── V0 採用中のA案（見出し左上・帯は積み） ─────────── */
-  .v0 .lead{ position:absolute; top:35mm; left:12mm; right:12mm; z-index:5; }
-  .v0 .lead .bar{ margin-bottom:4.2mm; }
-  .v0 .lead h1{ color:var(--ink); }
-  .v0 .lead p{ margin-top:3.4mm; font-size:8.4pt; line-height:1.8;
-    letter-spacing:.07em; color:var(--ink-s); max-width:120mm; }
-  .v0 .reason{ margin-top:4mm; }
-  .v0 .cta{ margin-top:4.4mm; padding-top:3.8mm;
-    border-top:.3mm solid rgba(220,193,137,.5);
-    display:grid; grid-template-columns:1fr 19mm; gap:5.5mm; align-items:center; }
-  .v0 .legal{ margin-top:3.4mm; }
-  .tag.ok{ background:#1F6B4A; }
-
-  /* ── 背景画像セレクタ（画面用。印刷には出ない） ── */
-  .toolbar{
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    background:#11141B; border-bottom:1px solid rgba(217,184,114,.35);
-    padding:10px 18px; display:flex; align-items:center; gap:16px;
-    font-family:var(--gothic); box-shadow:0 2px 14px rgba(0,0,0,.4);
-  }
-  .toolbar .tb-label{
-    font-size:10px; letter-spacing:.22em; color:#D9B872; font-weight:700;
-    text-transform:uppercase; white-space:nowrap;
-  }
-  .toolbar select{
-    background:#1B1F29; color:#fff; border:1px solid rgba(255,255,255,.22);
-    border-radius:3px; padding:7px 30px 7px 11px; font-size:12.5px;
-    font-family:var(--gothic); letter-spacing:.04em; cursor:pointer;
-    -webkit-appearance:none; appearance:none; min-width:290px;
+  /* ── ツールバー ── */
+  .toolbar{position:fixed;top:0;left:0;right:0;z-index:100;background:#11141B;
+    border-bottom:1px solid rgba(217,184,114,.35);padding:9px 16px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;
+    box-shadow:0 2px 14px rgba(0,0,0,.45)}
+  .tb-label{font-size:9.5px;letter-spacing:.2em;color:#D9B872;font-weight:700;
+    text-transform:uppercase;white-space:nowrap}
+  .toolbar select{background:#1B1F29;color:#fff;border:1px solid rgba(255,255,255,.22);
+    border-radius:3px;padding:6px 26px 6px 10px;font-size:12px;font-family:var(--gothic);
+    cursor:pointer;-webkit-appearance:none;appearance:none;max-width:280px;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%23D9B872'/></svg>");
-    background-repeat:no-repeat; background-position:right 11px center;
-  }
-  .toolbar select:hover{ border-color:rgba(217,184,114,.6); }
-  .toolbar .tb-note{
-    font-size:10.5px; color:rgba(255,255,255,.42); letter-spacing:.04em;
-    margin-left:auto; white-space:nowrap;
-  }
-  body{ padding-top:70px; }
+    background-repeat:no-repeat;background-position:right 9px center}
+  .tb-check{display:flex;align-items:center;gap:6px;font-size:11.5px;color:#fff;cursor:pointer;white-space:nowrap}
+  .tb-check input{accent-color:#D9B872;width:14px;height:14px;cursor:pointer}
+  .tb-note{font-size:10px;color:rgba(255,255,255,.4);margin-left:auto;white-space:nowrap}
+  @media print{.toolbar{display:none}body{padding:0}.cap{display:none}}
 
-  .toolbar .tb-check{
-    display:flex; align-items:center; gap:7px; font-size:12px; color:#fff;
-    letter-spacing:.04em; cursor:pointer; white-space:nowrap;
-  }
-  .toolbar .tb-check input{ accent-color:#D9B872; width:15px; height:15px; cursor:pointer; }
-  /* ロゴ表示時。
-     外形ではなく「ワードマークの文字高」を揃える。
-     実測: DAMAC=画像高の100%, Ellington=29%, Beyond=59%, Amali=75%
-     が文字帯なので、文字高が 2.5mm になる表示高を社ごとに与える。 */
-  .devs li img{ width:auto; object-fit:contain; display:block; margin:0 auto; }
-  .devs li img[alt="DAMAC"]    { height:2.5mm;  max-width:74%; }
-  .devs li img[alt="Ellington"]{ height:8.6mm;  max-width:74%; }
-  .devs li img[alt="Beyond"]   { height:4.25mm; max-width:74%; }
-  .devs li img[alt="Amali"]    { height:3.35mm; max-width:74%; }
-  /* Version 4 の左柱は幅が狭いので一段小さく（比率は保つ） */
-  .v4 .col-l li img{ margin:0; }
-  .v4 .col-l li img[alt="DAMAC"]    { height:2.1mm;  max-width:100%; }
-  .v4 .col-l li img[alt="Ellington"]{ height:7.2mm;  max-width:100%; }
-  .v4 .col-l li img[alt="Beyond"]   { height:3.55mm; max-width:100%; }
-  .v4 .col-l li img[alt="Amali"]    { height:2.8mm;  max-width:100%; }
-  /* 高さがバラつくぶん、行の中で天地中央に置く */
-  .devs li{ display:flex; align-items:center; justify-content:center; }
-  .v4 .col-l li{ display:flex; align-items:center; justify-content:flex-start; min-height:8mm; }
+  .cap{color:#fff;font-size:12px;letter-spacing:.1em;margin-top:14px;font-weight:700}
+  .cap span{font-weight:400;opacity:.55;letter-spacing:.02em}
 
-  /* ── ミニ地図（チェックボックスで表示） ── */
-  .minimap{ margin-top:2.8mm; max-width:62mm; }
-  .minimap svg{ width:100%; height:auto; display:block; }
-  .minimap .mm-note{
-    margin-top:1.1mm; font-size:4.8pt; line-height:1.5; letter-spacing:.04em;
-    color:rgba(255,255,255,.58);
-  }
-  .v4 .minimap{ max-width:100%; }
+  /* ── シート ── */
+  .sheet{width:182mm;height:257mm;position:relative;overflow:hidden;background:#0B1430;
+    box-shadow:0 14px 44px rgba(0,0,0,.5)}
+  .sheet>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    object-position:50% 42%;display:block}
+  .scrim{position:absolute;left:0;right:0;top:0;pointer-events:none}
+  .band{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:14mm 12mm 6mm;color:#fff;
+    text-shadow:0 1px 6px rgba(4,8,22,.85),0 0 18px rgba(4,8,22,.5)}
 
-  /* ── EXCEED マーク（社章）── */
-  .brandrow{ display:flex; align-items:center; gap:3.4mm; }
-  .brandrow .mark{ height:9mm; width:auto; display:block; flex:none; }
-  @media print{ .toolbar{ display:none; } body{ padding-top:0; } }
+  .head{position:absolute;top:9mm;left:12mm;right:12mm;z-index:5;display:flex;
+    justify-content:space-between;align-items:flex-start}
+  .brandrow{display:flex;align-items:center;gap:3.2mm}
+  .brandrow .mark{height:9mm;width:auto;display:block;flex:none}
+  .brand{font-family:var(--roman);font-size:11.5pt;letter-spacing:.34em}
+  .brand small{display:block;font-family:var(--gothic);font-size:5.6pt;
+    letter-spacing:.2em;margin-top:1.1mm;opacity:.72}
+  .open{text-align:right}
+  .open .k{font-size:6.4pt;letter-spacing:.24em;color:var(--gold);font-weight:700;margin-bottom:1.1mm}
+  .open .d{font-family:var(--roman);font-size:19pt;line-height:1;letter-spacing:.02em}
+  .open .w{font-size:6pt;letter-spacing:.24em;margin-top:.9mm;opacity:.72}
+
+  .lead{position:absolute;z-index:5}
+  .lead .bar{width:15mm;height:.45mm;background:var(--gold);margin-bottom:4.2mm}
+  .lead[data-align="right"] .bar{margin-left:auto}
+  .lead[data-align="center"] .bar{margin:0 auto 4.2mm}
+  h1{font-family:var(--mincho);font-weight:600;line-height:1.48;letter-spacing:.03em;
+    font-feature-settings:"palt" 1}
+  h1 em{font-style:normal;color:var(--gold)}
+  .lead .sub{margin-top:3.4mm;font-size:8.4pt;line-height:1.8;letter-spacing:.07em}
+  .band h1{color:#fff}
+  .band h1 em{color:var(--gold-l)}
+
+  .devs{display:flex;list-style:none;border-top:.3mm solid rgba(255,255,255,.34);
+    border-bottom:.3mm solid rgba(255,255,255,.34)}
+  .devs li{flex:1;text-align:center;padding:3mm 0;font-family:var(--roman);font-size:12pt;
+    letter-spacing:.1em;display:flex;align-items:center;justify-content:center}
+  .devs li+li{border-left:.3mm solid rgba(255,255,255,.24)}
+  .devs li img{width:auto;object-fit:contain;display:block;margin:0 auto}
+  .devs li img[alt="DAMAC"]{height:2.5mm;max-width:74%}
+  .devs li img[alt="Ellington"]{height:8.6mm;max-width:74%}
+  .devs li img[alt="Beyond"]{height:4.25mm;max-width:74%}
+  .devs li img[alt="Amali"]{height:3.35mm;max-width:74%}
+
+  .cols2{display:grid;grid-template-columns:42mm 1fr;gap:7mm;align-items:end}
+  .cols2 .devs{flex-direction:column;border:0}
+  .cols2 .devs li{border-left:0!important;border-bottom:.3mm solid rgba(255,255,255,.24);
+    padding:2mm 0;justify-content:flex-start;min-height:7.5mm}
+  .cols2 .devs li:first-child{border-top:.3mm solid rgba(255,255,255,.34)}
+  .cols2 .devs li img{margin:0}
+  .cols2 .devs li img[alt="DAMAC"]{height:2.1mm}
+  .cols2 .devs li img[alt="Ellington"]{height:7.2mm}
+  .cols2 .devs li img[alt="Beyond"]{height:3.55mm}
+  .cols2 .devs li img[alt="Amali"]{height:2.8mm}
+
+  .reason{margin-top:4mm;font-family:var(--mincho);font-size:8.6pt;line-height:1.8;
+    letter-spacing:.04em;color:rgba(255,255,255,.92)}
+  .reason b{font-weight:600;color:var(--gold-l)}
+  .cta{margin-top:4.4mm;padding-top:4mm;border-top:.3mm solid rgba(220,193,137,.5);
+    display:grid;grid-template-columns:1fr 19mm;gap:5.5mm;align-items:center}
+  .cta h2{font-family:var(--mincho);font-size:11pt;font-weight:600;letter-spacing:.05em;margin-bottom:2.4mm}
+  .cta h2 em{font-style:normal;color:var(--gold-l)}
+  .cta table{border-collapse:collapse;font-size:7.4pt;line-height:1.9}
+  .cta th{text-align:left;font-size:6.2pt;letter-spacing:.18em;color:rgba(220,193,137,.9);
+    font-weight:700;padding-right:3.6mm;white-space:nowrap;vertical-align:top}
+  .fill{background:rgba(255,255,255,.14);border-bottom:.3mm dashed rgba(220,193,137,.8);
+    padding:0 1.7mm;color:#F2DDB0}
+  .qr{text-align:center;align-self:center}
+  .qr img{width:100%;display:block}
+  .qr span{display:block;margin-top:1.6mm;font-size:5.4pt;letter-spacing:.14em;color:rgba(255,255,255,.86)}
+  .legal{margin-top:4mm;font-size:4.9pt;line-height:1.6;color:rgba(255,255,255,.52)}
+  .legal u{text-decoration:none;border-bottom:.3mm dashed #E08A6E}
+  .tag{position:absolute;top:0;left:0;background:#A9452F;color:#fff;z-index:9;
+    font-size:6.4pt;font-weight:700;padding:1.6px 7px;letter-spacing:.1em}
+  .note{color:rgba(255,255,255,.5);font-size:11px;max-width:182mm;text-align:center;line-height:1.6}
 </style>
 </head>
 <body>
 
-<div class="cap">VERSION 1 ／ <span style="color:#8FE0B4">採用中</span> — 見出しは空の左上、以下は下の帯に積む</div>
-<section class="sheet v0">
-  <div class="tag ok">VERSION 1 ／ 採用</div>
-  <img src="assets/hero-v4-daylight.png" alt="銀座とドバイ"><div class="sky"></div>
-  <div class="head">
-    <div class="brandrow"><img class="mark" src="assets/logos/exceed-mark-ink.png" alt="EXCEED"><div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div></div>
-    <div class="open"><div class="k">日本初・銀座</div><div class="d">10.18</div><div class="w">2026 SUN OPEN</div></div>
-  </div>
-  <div class="lead">
-    <div class="bar"></div>
-    <h1>ドバイを、<em>&ldquo;比べて&rdquo;</em><br>選べる場所ができました。</h1>
-    <p>ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。</p>
-  </div>
-  <div class="band">
-    <ul class="devs"><li>DAMAC</li><li>Ellington</li><li>Beyond</li><li>Amali</li></ul>
-    <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。<b>無理な勧誘は一切いたしません。</b></p>
-    <div class="cta">
-      <div>
-        <h2><em>LINE公式アカウント</em>、開設しました。</h2>
-        <table>
-          <tr><th>会 場</th><td>東京都中央区銀座5-9-1 銀座コティビル <span class="fill">【◯階】</span><br>東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</td></tr>
-          <tr><th>開 業</th><td>2026年10月18日（日）　友だち追加で、開業のご案内とドバイ最新物件の情報をお届けします。</td></tr>
-        </table>
-      </div>
-      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>友だち追加</span></div>
-    </div>
-    <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
-  </div>
-</section>
-
-<!-- ══════════ VERSION 2 縦組み ══════════ -->
-<div class="cap">VERSION 2 ／ 全部下 <span>— 空に何も置かない。写真が一番きれいに見え、文字は一箇所にまとまる</span></div>
-<section class="sheet v3">
-  <div class="tag">VERSION 2</div>
-  <img src="assets/hero-v4-daylight.png" alt="銀座とドバイ"><div class="sky"></div>
-  <div class="head">
-    <div class="brandrow"><img class="mark" src="assets/logos/exceed-mark-ink.png" alt="EXCEED"><div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div></div>
-    <div class="open"><div class="k">日本初・銀座</div><div class="d">10.18</div><div class="w">2026 SUN OPEN</div></div>
-  </div>
-  <div class="band">
-    <div class="bar"></div>
-    <h1>ドバイを、<em>&ldquo;比べて&rdquo;</em>選べる場所ができました。</h1>
-    <p class="sub">ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。</p>
-    <ul class="devs"><li>DAMAC</li><li>Ellington</li><li>Beyond</li><li>Amali</li></ul>
-    <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。</p>
-    <div class="cta">
-      <div>
-        <h2><em>LINE公式アカウント</em>、開設しました。</h2>
-        <table>
-          <tr><th>会 場</th><td>東京都中央区銀座5-9-1 銀座コティビル <span class="fill">【◯階】</span><br>東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</td></tr>
-          <tr><th>開 業</th><td>2026年10月18日（日）　友だち追加で、開業のご案内とドバイ最新物件の情報をお届けします。</td></tr>
-        </table>
-      </div>
-      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>友だち追加</span></div>
-    </div>
-    <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
-  </div>
-</section>
-
-<!-- ══════════ VERSION 3 左柱・非対称 ══════════ -->
-<div class="cap">VERSION 3 ／ 左柱・非対称 <span>— 4社を縦に積む。雑誌的で、社名が一社ずつ効く</span></div>
-<section class="sheet v4">
-  <div class="tag">VERSION 3</div>
-  <img src="assets/hero-v4-daylight.png" alt="銀座とドバイ"><div class="sky"></div>
-  <div class="head">
-    <div class="brandrow"><img class="mark" src="assets/logos/exceed-mark-ink.png" alt="EXCEED"><div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div></div>
-    <div class="open"><div class="k">日本初・銀座</div><div class="d">10.18</div><div class="w">2026 SUN OPEN</div></div>
-  </div>
-  <div class="lead">
-    <h1>ドバイを、<em>&ldquo;比べて&rdquo;</em><br>選べる場所ができました。</h1>
-    <p>ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。</p>
-  </div>
-  <div class="band">
-    <div class="col-l">
-      <div class="k">PERMANENT<br>SHOWROOMS</div>
-      <ul><li>DAMAC</li><li>Ellington</li><li>Beyond</li><li>Amali</li></ul>
-    </div>
-    <div class="col-r">
-      <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。</p>
-      <div class="cta">
-        <div>
-          <h2><em>LINE公式アカウント</em>、開設しました。</h2>
-          <table>
-            <tr><th>会 場</th><td>銀座5-9-1 銀座コティビル<span class="fill">【◯階】</span><br>「東銀座」駅 徒歩2分</td></tr>
-            <tr><th>開 業</th><td>2026年10月18日（日）　友だち追加で最新情報をお届けします。</td></tr>
-          </table>
-        </div>
-        <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>友だち追加</span></div>
-      </div>
-    </div>
-    <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
-  </div>
-</section>
-
-
 <div class="toolbar">
-  <span class="tb-label">背景画像 ／ Background</span>
-  <select id="bg-select"></select>
-  <span class="tb-label">レイアウト ／ Layout</span>
-  <select id="layout-select"></select>
-  <span class="tb-label">主見出し ／ Headline</span>
-  <select id="headline-select"></select>
-  <span class="tb-label">副見出し ／ Sub</span>
-  <select id="sub-select"></select>
-  <span class="tb-label">リード文 ／ Lead</span>
-  <select id="lead-select"></select>
-  <label class="tb-check"><input type="checkbox" id="logo-toggle"> デベロッパーロゴ</label>
-  <span class="tb-label">フェード色 ／ Fade</span>
-  <select id="fade-select"></select>
-  <label class="tb-check"><input type="checkbox" id="map-toggle"> 地図</label>
-  <label class="tb-check"><input type="checkbox" id="mark-toggle" checked> EXCEED社章</label>
+  <span class="tb-label">画像</span><select id="img-select"></select>
+  <span class="tb-label">レイアウト</span><select id="layout-select"></select>
+  <span class="tb-label">主見出し</span><select id="headline-select"></select>
+  <span class="tb-label">副見出し</span><select id="sub-select"></select>
+  <span class="tb-label">リード文</span><select id="lead-select"></select>
+  <span class="tb-label">フェード色</span><select id="fade-select"></select>
+  <label class="tb-check"><input type="checkbox" id="logo-toggle"> ロゴ</label>
+  <label class="tb-check"><input type="checkbox" id="mark-toggle" checked> 社章</label>
   <span class="tb-note">選択は保存されます</span>
 </div>
+
+<div id="stage"></div>
+
 <script>
-/* 背景画像の登録簿。画像を足すときはここに1行足すだけ。 */
-const BACKGROUNDS = [
-  { id:'ginza-vanishing-point',
-    name:'GINZA VANISHING POINT ／ 消失点のドバイ',
-    file:'assets/hero-v4-daylight.png' },
+const HEROES = [{"id": "ginza-vanishing-point", "name": "銀座の消失点 ／ GINZA VANISHING POINT", "file": "assets/heroes/ginza-vanishing-point.jpg", "note": "通りの消失点にブルジュ。左上の空が唯一まとまって空いている。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 35, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 52, "l": 12, "r": null, "w": 96, "align": "left", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 35, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "ginza-corridor", "name": "銀座回廊 ／ GINZA CORRIDOR", "file": "assets/heroes/ginza-corridor.jpg", "note": "完全な左右対称。この一枚だけは中央揃えが効く。空は上40%まるごと無地。", "layouts": [{"id": "1", "name": "中央 ／ 見出しは静かな面へ", "head": {"t": 30, "l": 12, "r": 12, "w": null, "align": "center", "color": "ink", "scrim": 44, "size": 22}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 30, "l": 12, "r": null, "w": 104, "align": "left", "color": "ink", "scrim": 44, "size": 20}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": 12, "r": 12, "w": null, "align": "center", "color": "ink", "scrim": 44, "size": 22}, "band": {"h": 50, "cols": 2}}]}, {"id": "morning-crossing", "name": "朝の交差点 ／ MORNING CROSSING", "file": "assets/heroes/morning-crossing.jpg", "note": "右手前が日陰の石壁。白文字が最も映える面。左上の空も静か。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 32, "l": 12, "r": null, "w": 104, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "右壁 ／ 寄せて余白を作る", "head": {"t": 96, "l": null, "r": 12, "w": 74, "align": "right", "color": "white", "scrim": 0, "size": 18}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 32, "l": 12, "r": null, "w": 104, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "elevated-ginza", "name": "俯瞰の銀座 ／ ELEVATED GINZA", "file": "assets/heroes/elevated-ginza.jpg", "note": "俯瞰。時計塔が左、ブルジュが右上。空は上30%が完全に無地。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 30, "l": null, "r": 12, "w": 112, "align": "right", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 20}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": null, "r": 12, "w": 112, "align": "right", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "clocktower-burj", "name": "時計塔とブルジュ ／ CLOCKTOWER & BURJ", "file": "assets/heroes/clocktower-burj.jpg", "note": "時計塔が右を占める。左上の空が縦に大きく空いており、塔と喧嘩しない。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 34, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 88, "l": 12, "r": null, "w": 88, "align": "left", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 34, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "the-window-day", "name": "ショーウィンドウ・昼 ／ THE WINDOW, DAY", "file": "assets/heroes/the-window-day.jpg", "note": "上部の石の見切りが無地。ガラスの中の模型があるので下半分は隠さない。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 30, "size": 21}, "band": {"h": 44, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 57, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 24, "l": 12, "r": null, "w": 76, "align": "left", "color": "ink", "scrim": 30, "size": 19}, "band": {"h": 39, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "ink", "scrim": 30, "size": 21}, "band": {"h": 44, "cols": 2}}]}, {"id": "the-window-dusk", "name": "ショーウィンドウ・黄昏 ／ THE WINDOW, DUSK", "file": "assets/heroes/the-window-dusk.jpg", "note": "黄昏の空が暗い。白文字をそのまま置ける。模型と夕景は見せ切る。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 44, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 57, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 24, "l": 12, "r": null, "w": 76, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 39, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 24, "l": 12, "r": null, "w": 118, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 44, "cols": 2}}]}, {"id": "the-model", "name": "模型 ／ THE MODEL", "file": "assets/heroes/the-model.jpg", "note": "主役は模型そのもの。左のボケた石面に白文字を置けば模型に触らない。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 96, "l": 12, "r": null, "w": 88, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "iconic-daylight", "name": "白昼の銀座 ／ ICONIC DAYLIGHT", "file": "assets/heroes/iconic-daylight.jpg", "note": "最も静かな空。どこでも成立するが左上が最も広い。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 32, "l": 12, "r": null, "w": 108, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 32, "l": null, "r": 12, "w": 96, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 32, "l": 12, "r": null, "w": 108, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "blue-hour", "name": "青の刻 ／ BLUE HOUR", "file": "assets/heroes/blue-hour.jpg", "note": "夜。紺の空に白文字が最も美しい。濡れた路面は下半分なので帯で隠れてよい。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 112, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 28, "l": null, "r": 12, "w": 96, "align": "right", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 112, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "window-reflection", "name": "硝子の中のドバイ ／ WINDOW REFLECTION", "file": "assets/heroes/window-reflection.jpg", "note": "硝子の中にドバイ。反射像を消さないよう文字は窓枠の外へ逃がす。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 26, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 34, "size": 21}, "band": {"h": 48, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 61, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 90, "l": 12, "r": null, "w": 84, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 43, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 26, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 34, "size": 21}, "band": {"h": 48, "cols": 2}}]}, {"id": "new-office", "name": "新しい執務室 ／ THE NEW OFFICE", "file": "assets/heroes/new-office.jpg", "note": "室内。左の無地の壁が唯一の逃げ場。窓外のドバイと打合せ卓は見せる。", "layouts": [{"id": "1", "name": "壁 ／ 見出しは静かな面へ", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 36, "size": 21}, "band": {"h": 48, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 61, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 84, "l": 12, "r": null, "w": 86, "align": "left", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 43, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 36, "size": 21}, "band": {"h": 48, "cols": 2}}]}, {"id": "office-entrance", "name": "入口 ／ THE ENTRANCE", "file": "assets/heroes/office-entrance.jpg", "note": "淡い石の面積が圧倒的。18枚で最も余白が取れる。見出しを一段大きく。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 30, "l": 12, "r": null, "w": 126, "align": "left", "color": "ink", "scrim": 44, "size": 24}, "band": {"h": 44, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 57, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 30, "l": null, "r": 12, "w": 104, "align": "right", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 39, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": 12, "r": null, "w": 126, "align": "left", "color": "ink", "scrim": 44, "size": 24}, "band": {"h": 44, "cols": 2}}]}, {"id": "elevated-city", "name": "俯瞰の街 ／ ELEVATED CITY", "file": "assets/heroes/elevated-city.jpg", "note": "俯瞰。空が上30%無地。街区のリズムが横に流れるので見出しも横位置。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 110, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 28, "l": null, "r": 12, "w": 94, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 110, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "human-led", "name": "歩く人 ／ HUMAN LED", "file": "assets/heroes/human-led.jpg", "note": "人物が中央下。顔に文字がかからないよう左上へ。視線の先が空くのも good。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 67, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 30, "l": null, "r": 12, "w": 88, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 49, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 30, "l": 12, "r": null, "w": 100, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 54, "cols": 2}}]}, {"id": "champagne-sunrise", "name": "黎明 ／ CHAMPAGNE SUNRISE", "file": "assets/heroes/champagne-sunrise.jpg", "note": "最も明るい空。墨の明朝が最もよく効く一枚。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 32, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 32, "l": null, "r": 12, "w": 96, "align": "right", "color": "ink", "scrim": 44, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 32, "l": 12, "r": null, "w": 112, "align": "left", "color": "ink", "scrim": 44, "size": 21}, "band": {"h": 50, "cols": 2}}]}, {"id": "architectural-model", "name": "建築模型 ／ ARCHITECTURAL MODEL", "file": "assets/heroes/architectural-model.jpg", "note": "模型と背後の塔。上部のガラス面が暗いので白文字が乗る。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 26, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 46, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 59, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 92, "l": 12, "r": null, "w": 86, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 41, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 26, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 46, "cols": 2}}]}, {"id": "office-beacon", "name": "灯 ／ THE BEACON", "file": "assets/heroes/office-beacon.jpg", "note": "夜。左が暗く右に灯った窓。左上の闇に白文字を置くと灯りが引き立つ。", "layouts": [{"id": "1", "name": "天 ／ 見出しは静かな面へ", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 1}}, {"id": "2", "name": "地 ／ 写真は無傷、文字は下に", "head": {"zone": "band", "color": "white"}, "band": {"h": 63, "cols": 1}}, {"id": "3", "name": "側 ／ 寄せて余白を作る", "head": {"t": 92, "l": 12, "r": null, "w": 88, "align": "left", "color": "white", "scrim": 0, "size": 19}, "band": {"h": 45, "cols": 1}}, {"id": "4", "name": "二段 ／ 4社を柱に立てる", "head": {"t": 28, "l": 12, "r": null, "w": 104, "align": "left", "color": "white", "scrim": 0, "size": 21}, "band": {"h": 50, "cols": 2}}]}];
+
+const HEADLINES = [
+ {id:'1',label:'1 ／ ドバイが、銀座に来ます。',h:'<em>ドバイ</em>が、銀座に来ます。',size:27},
+ {id:'2',label:'2 ／ ドバイを、"比べて"選べる場所ができました。',h:'ドバイを、<em>&ldquo;比べて&rdquo;</em><br>選べる場所ができました。',size:21},
+ {id:'5',label:'5 ／ 見てから、決める。',h:'見てから、<em>決める</em>。',size:34},
+ {id:'6',label:'6 ／ 銀座で、ドバイを歩く。',h:'銀座で、<em>ドバイ</em>を歩く。',size:28},
+ {id:'7',label:'7 ／ 一日だけの説明会は、もう終わりにしませんか。',h:'一日だけの説明会は、<br><em>もう終わりに</em>しませんか。',size:19},
+ {id:'8',label:'8 ／ 模型に、触れます。',h:'<em>模型</em>に、触れます。',size:31},
 ];
+const SUBS = [
+ {id:'a',label:'a ／ 現行',t:'ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。'},
+ {id:'b',label:'b ／ 4社を名指しする',t:'DAMAC・Ellington・Beyond・Amali。ドバイ主要4社の常設ショールームが、10月18日、銀座に開きます。'},
+ {id:'c',label:'c ／ 規模を出す',t:'約189㎡。ドバイ主要デベロッパー4社の常設ブースと、2つの商談室。10月18日、銀座に開業します。'},
+ {id:'d',label:'d ／ 何ができるか',t:'ドバイの不動産を、模型と図面で見比べられる場所。日本初のショールームが、銀座に誕生します。'},
+ {id:'e',label:'e ／ 行かずに見られる',t:'現地に行かずに、ドバイが見られる。日本初の常設ショールーム、10月18日 銀座オープン。'},
+ {id:'f',label:'f ／ 前例がない',t:'これまで日本になかった場所です。ドバイ主要デベロッパー4社が、常設で、一堂に。'},
+];
+const LEADS = [
+ {id:'a',label:'a ／ 現行',t:'一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。'},
+ {id:'b',label:'b ／ 違いを具体で',t:'エリアも価格帯も引渡し時期も、デベロッパーごとに<b>まるで違います</b>。銀座では4社の模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。'},
+ {id:'c',label:'c ／ 並べないと分からない',t:'「どこがいいか」は、<b>並べてみないと分かりません</b>。ドバイ主要4社のブースを歩いて回り、気になる住戸はその場で最新の販売状況をお調べします。'},
+ {id:'d',label:'d ／ 飛ばなくていい',t:'現地に飛ばなくても、<b>ドバイは見られます</b>。模型、図面、内装仕様、最新の在庫。すべて銀座で、日本語のまま。'},
+ {id:'e',label:'e ／ 常設であること',t:'一日だけの説明会ではありません。<b>常設ですから</b>、何度でも、比べ終わるまでお越しいただけます。'},
+ {id:'f',label:'f ／ 見るだけでいい',t:'買う・買わないの前に、<b>まず見る</b>。それだけのために来ていただいて構いません。'},
+];
+const FADES = [
+ {id:'navy',label:'ネイビー ／ 砂漠の夜空',rgb:'11,20,48'},
+ {id:'charcoal',label:'チャコール ／ Exceedの地色',rgb:'21,23,28'},
+ {id:'sand',label:'ディープサンド ／ 砂の陰',rgb:'38,27,17'},
+ {id:'teal',label:'ディープティール ／ 緑青のタイル',rgb:'14,42,46'},
+ {id:'ink',label:'墨 ／ 最もコントラストが出る',rgb:'10,10,12'},
+ {id:'bronze',label:'ブロンズ ／ 間接照明の陰',rgb:'32,24,12'},
+];
+const STOPS=[[0,0],[6,.24],[14,.50],[24,.68],[42,.82],[62,.90],[100,.93]];
+const DEVS=[['DAMAC','damac'],['Ellington','ellington'],['Beyond','beyond'],['Amali','amali']];
+const ADDR='東京都中央区銀座5-9-1 銀座コティビル <span class="fill">【◯階】</span>'+
+  '<br>東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分';
+const LEGAL='※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u>';
 
-(function(){
-  const sel = document.getElementById('bg-select');
-  BACKGROUNDS.forEach(b => {
-    const o = document.createElement('option');
-    o.value = b.id; o.textContent = b.name; sel.appendChild(o);
-  });
+const S={}; // 選択状態
+function save(){ try{ localStorage.setItem('ginza-flyer-v2', JSON.stringify(S)); }catch(e){} }
+function load(){ try{ return JSON.parse(localStorage.getItem('ginza-flyer-v2'))||{}; }catch(e){ return {}; } }
 
-  function apply(id){
-    const bg = BACKGROUNDS.find(b => b.id === id) || BACKGROUNDS[0];
-    document.querySelectorAll('.sheet > img').forEach(img => { img.src = bg.file; });
-    try { localStorage.setItem('ginza-flyer-bg', bg.id); } catch(e){}
-    sel.value = bg.id;
+function fill(el,arr,valKey='id',txtKey='label'){
+  el.innerHTML='';
+  arr.forEach(x=>{const o=document.createElement('option');o.value=x[valKey];o.textContent=x[txtKey];el.appendChild(o);});
+}
+function grad(rgb){ return 'linear-gradient(180deg,'+STOPS.map(([p,a])=>`rgba(${rgb},${a}) ${p}%`).join(',')+')'; }
+
+function devList(){
+  return '<ul class="devs">'+DEVS.map(([n,slug])=>
+    S.logos ? `<li data-name="${n}"><img src="assets/logos/${slug}-white.png" alt="${n}"></li>`
+            : `<li data-name="${n}">${n}</li>`).join('')+'</ul>';
+}
+
+function sheetHTML(img, lay){
+  const hd = HEADLINES.find(x=>x.id===S.headline)||HEADLINES[1];
+  const sub = SUBS.find(x=>x.id===S.sub)||SUBS[0];
+  const lead = LEADS.find(x=>x.id===S.lead)||LEADS[0];
+  const fade = FADES.find(x=>x.id===S.fade)||FADES[0];
+  const h = lay.head;
+  const inBand = h.zone==='band';
+  const col = inBand ? 'white' : (h.color||'ink');
+  const textColor = col==='ink' ? 'var(--ink)' : '#fff';
+  const subColor  = col==='ink' ? 'var(--ink-s)' : 'rgba(255,255,255,.86)';
+  const size = inBand ? Math.min(hd.size,20) : (h.size||hd.size);
+  const shadow = col==='white' ? 'text-shadow:0 2px 18px rgba(0,0,0,.6);' : '';
+
+  // 空のスクリム（明るい面に墨文字を置くときだけ起こす）
+  const scrim = (!inBand && col==='ink' && h.scrim>0)
+    ? `<div class="scrim" style="height:${h.scrim}%;background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(255,255,255,.7) 34%,rgba(255,255,255,.32) 68%,rgba(255,255,255,0))"></div>` : '';
+
+  const pos = inBand ? '' :
+    `top:${h.t}mm;${h.l!=null?`left:${h.l}mm;`:''}${h.r!=null?`right:${h.r}mm;`:''}` +
+    `${h.w?`width:${h.w}mm;`:(h.l!=null&&h.r!=null?'':'')}${h.l!=null&&h.r!=null&&!h.w?`right:${h.r}mm;`:''}` +
+    `text-align:${h.align||'left'};color:${textColor};`;
+
+  const headBlock = `
+    <div class="lead" data-align="${h.align||'left'}" style="${pos}">
+      <div class="bar"></div>
+      <h1 style="font-size:${size}pt;${shadow}">${hd.h}</h1>
+      <p class="sub" style="color:${subColor};${shadow}">${sub.t}</p>
+    </div>`;
+
+  const bandHead = inBand ? `
+    <div class="bar"></div>
+    <h1 style="font-size:${Math.min(hd.size,20)}pt;margin-bottom:1mm">${hd.h}</h1>
+    <p class="sub" style="color:rgba(255,255,255,.84);margin-bottom:5mm">${sub.t}</p>` : '';
+
+  const body = `
+    <p class="reason">${lead.t}</p>
+    <div class="cta">
+      <div>
+        <h2><em>LINE公式アカウント</em>、開設しました。</h2>
+        <table>
+          <tr><th>会 場</th><td>${ADDR}</td></tr>
+          <tr><th>開 業</th><td>2026年10月18日（日）　友だち追加で、開業のご案内とドバイ最新物件の情報をお届けします。</td></tr>
+        </table>
+      </div>
+      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>友だち追加</span></div>
+    </div>`;
+
+  const bandInner = lay.band.cols===2
+    ? `${bandHead}<div class="cols2"><div>${devList()}</div><div>${body}</div></div>`
+    : `${bandHead}${devList()}${body}`;
+
+  const markStyle = S.mark ? '' : 'display:none;';
+  const headColor = col==='ink' && !inBand ? 'var(--ink)' : (h.t!=null&&h.t<20?'#fff':'var(--ink)');
+
+  return `
+  <section class="sheet">
+    <div class="tag">${img.name.split(' ／')[0]}｜レイアウト${lay.id}</div>
+    <img src="${img.file}" alt="${img.name}">
+    ${scrim}
+    <div class="band" style="height:${lay.band.h}%;background:${grad(fade.rgb)}">${bandInner}
+      <p class="legal">${LEGAL}</p>
+    </div>
+    <div class="head" style="color:${headColor}">
+      <div class="brandrow">
+        <img class="mark" src="assets/logos/exceed-mark-${headColor==='#fff'?'white':'ink'}.png" alt="EXCEED" style="${markStyle}">
+        <div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div>
+      </div>
+      <div class="open"><div class="k">日本初・銀座</div><div class="d">10.18</div><div class="w">2026 SUN OPEN</div></div>
+    </div>
+    ${inBand ? '' : headBlock}
+  </section>`;
+}
+
+function render(){
+  const img = HEROES.find(x=>x.id===S.image)||HEROES[0];
+  const stage = document.getElementById('stage');
+  const lays = S.layout==='all' ? img.layouts : img.layouts.filter(l=>l.id===S.layout);
+  stage.innerHTML = `<div class="note">${img.note}</div>` +
+    lays.map(l=>`<div class="cap">レイアウト ${l.id} ／ <span>${l.name.split(' ／ ')[1]||''}</span></div>${sheetHTML(img,l)}`).join('');
+}
+
+(function init(){
+  Object.assign(S, {image:HEROES[0].id, layout:'all', headline:'2', sub:'a', lead:'a',
+                    fade:'navy', logos:false, mark:true}, load());
+  const iS=document.getElementById('img-select'),
+        lS=document.getElementById('layout-select'),
+        hS=document.getElementById('headline-select'),
+        sS=document.getElementById('sub-select'),
+        dS=document.getElementById('lead-select'),
+        fS=document.getElementById('fade-select'),
+        lg=document.getElementById('logo-toggle'),
+        mk=document.getElementById('mark-toggle');
+
+  fill(iS,HEROES,'id','name'); fill(hS,HEADLINES); fill(sS,SUBS); fill(dS,LEADS); fill(fS,FADES);
+
+  function syncLayouts(){
+    const img = HEROES.find(x=>x.id===S.image)||HEROES[0];
+    lS.innerHTML='';
+    const all=document.createElement('option'); all.value='all'; all.textContent='すべて表示 ／ 4案';
+    lS.appendChild(all);
+    img.layouts.forEach(l=>{const o=document.createElement('option');
+      o.value=l.id;o.textContent=`${l.id} ／ ${l.name.split(' ／ ')[0]}`;lS.appendChild(o);});
+    if(!['all',...img.layouts.map(l=>l.id)].includes(S.layout)) S.layout='all';
+    lS.value=S.layout;
   }
 
-  let saved = null;
-  try { saved = localStorage.getItem('ginza-flyer-bg'); } catch(e){}
-  apply(saved && BACKGROUNDS.some(b => b.id === saved) ? saved : BACKGROUNDS[0].id);
+  iS.value=S.image; syncLayouts();
+  hS.value=S.headline; sS.value=S.sub; dS.value=S.lead; fS.value=S.fade;
+  lg.checked=S.logos; mk.checked=S.mark;
 
-  sel.addEventListener('change', e => apply(e.target.value));
-})();
+  iS.onchange=e=>{S.image=e.target.value; syncLayouts(); save(); render();};
+  lS.onchange=e=>{S.layout=e.target.value; save(); render();};
+  hS.onchange=e=>{S.headline=e.target.value; save(); render();};
+  sS.onchange=e=>{S.sub=e.target.value; save(); render();};
+  dS.onchange=e=>{S.lead=e.target.value; save(); render();};
+  fS.onchange=e=>{S.fade=e.target.value; save(); render();};
+  lg.onchange=e=>{S.logos=e.target.checked; save(); render();};
+  mk.onchange=e=>{S.mark=e.target.checked; save(); render();};
 
-(function(){
-  /* ── レイアウト切替：シート内の「VERSION N」タグから自動で拾う ── */
-  const sel = document.getElementById('layout-select');
-  if(!sel) return;
-
-  const sheets = [...document.querySelectorAll('.sheet')].map(sheet => {
-    const tag = sheet.querySelector('.tag');
-    const m = tag ? (tag.textContent.match(/VERSION\s*(\d+)/i)) : null;
-    /* 直前の見出しキャプションも一緒に出し入れする */
-    let cap = sheet.previousElementSibling;
-    if(cap && !cap.classList.contains('cap')) cap = null;
-    return { n: m ? m[1] : null, sheet, cap };
-  }).filter(x => x.n);
-
-  if(sheets.length > 1){
-    const all = document.createElement('option');
-    all.value = 'all'; all.textContent = 'すべて表示 ／ All versions';
-    sel.appendChild(all);
-  }
-  sheets.forEach(s => {
-    const o = document.createElement('option');
-    o.value = s.n; o.textContent = 'Version ' + s.n;
-    sel.appendChild(o);
-  });
-
-  function apply(v){
-    sheets.forEach(s => {
-      const on = (v === 'all' || v === s.n);
-      s.sheet.style.display = on ? '' : 'none';
-      if(s.cap) s.cap.style.display = on ? '' : 'none';
-    });
-    try { localStorage.setItem('ginza-flyer-layout', v); } catch(e){}
-    sel.value = v;
-  }
-
-  let saved = null;
-  try { saved = localStorage.getItem('ginza-flyer-layout'); } catch(e){}
-  const valid = ['all', ...sheets.map(s => s.n)];
-  apply(valid.includes(saved) ? saved : (sheets.length > 1 ? 'all' : sheets[0].n));
-
-  sel.addEventListener('change', e => apply(e.target.value));
-})();
-
-(function(){
-  /* ── 主見出しの差し替え ──
-     size は横組みの基準pt。縦組み（Version 2）は 0.88 倍で当てる。
-     見出しを足すときは HEADLINES に1行足すだけ。 */
-  const HEADLINES = [
-    { id:'1', label:'1 ／ ドバイが、銀座に来ます。',
-      h:'<em>ドバイ</em>が、銀座に来ます。', size:27,
-      sub:'ドバイ主要デベロッパー4社が常設で一堂に会する、日本初のショールーム。10月18日、銀座に開きます。' },
-
-    { id:'2', label:'2 ／ ドバイを、"比べて"選べる場所ができました。',
-      h:'ドバイを、<em>&ldquo;比べて&rdquo;</em><br>選べる場所ができました。', size:21,
-      sub:'ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。' },
-
-    { id:'5', label:'5 ／ 見てから、決める。',
-      h:'見てから、<em>決める</em>。', size:34,
-      sub:'模型と図面を、横に並べて。日本初のドバイ不動産ショールーム、10月18日 銀座開業。' },
-
-    { id:'6', label:'6 ／ 銀座で、ドバイを歩く。',
-      h:'銀座で、<em>ドバイ</em>を歩く。', size:28,
-      sub:'約189㎡のギャラリーに、ドバイ主要デベロッパー4社の常設ブース。10月18日、銀座に開きます。' },
-
-    { id:'7', label:'7 ／ 一日だけの説明会は、もう終わりにしませんか。',
-      h:'一日だけの説明会は、<br><em>もう終わりに</em>しませんか。', size:19,
-      sub:'ドバイ主要デベロッパー4社の常設ショールームが、銀座に。いつでも、何度でも、ご相談いただけます。' },
-
-    { id:'8', label:'8 ／ 模型に、触れます。',
-      h:'<em>模型</em>に、触れます。', size:31,
-      sub:'ドバイ主要デベロッパー4社の模型と図面が、常設で。日本初のショールーム、10月18日 銀座開業。' },
-  ];
-
-  const sel = document.getElementById('headline-select');
-  if(!sel) return;
-  HEADLINES.forEach(x => {
-    const o = document.createElement('option');
-    o.value = x.id; o.textContent = x.label; sel.appendChild(o);
-  });
-
-  function apply(id){
-    const hd = HEADLINES.find(x => x.id === id) || HEADLINES[0];
-    document.querySelectorAll('.sheet h1').forEach(h1 => {
-      h1.innerHTML = hd.h;
-      const vertical = !!h1.closest('.v2');
-      h1.style.fontSize = (vertical ? (hd.size * 0.88).toFixed(1) : hd.size) + 'pt';
-      const sub = h1.nextElementSibling;
-      if(sub && (sub.tagName === 'P' || sub.classList.contains('sub'))) sub.innerHTML = hd.sub;
-    });
-    try { localStorage.setItem('ginza-flyer-headline', hd.id); } catch(e){}
-    sel.value = hd.id;
-  }
-
-  let saved = null;
-  try { saved = localStorage.getItem('ginza-flyer-headline'); } catch(e){}
-  apply(HEADLINES.some(x => x.id === saved) ? saved : '2');
-
-  sel.addEventListener('change', e => apply(e.target.value));
-})();
-
-(function(){
-  /* ── 副見出し ── */
-  const SUBS = [
-    { id:'a', label:'a ／ 現行',
-      t:'ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。' },
-    { id:'b', label:'b ／ 4社を名指しする',
-      t:'DAMAC・Ellington・Beyond・Amali。ドバイ主要4社の常設ショールームが、10月18日、銀座に開きます。' },
-    { id:'c', label:'c ／ 規模を出す',
-      t:'約189㎡。ドバイ主要デベロッパー4社の常設ブースと、2つの商談室。10月18日、銀座に開業します。' },
-    { id:'d', label:'d ／ 何ができるか',
-      t:'ドバイの不動産を、模型と図面で見比べられる場所。日本初のショールームが、銀座に誕生します。' },
-    { id:'e', label:'e ／ 行かずに見られる',
-      t:'現地に行かずに、ドバイが見られる。日本初の常設ショールーム、10月18日 銀座オープン。' },
-    { id:'f', label:'f ／ 前例がない',
-      t:'これまで日本になかった場所です。ドバイ主要デベロッパー4社が、常設で、一堂に。' },
-  ];
-
-  /* ── リード文 ── */
-  const LEADS = [
-    { id:'a', label:'a ／ 現行',
-      t:'一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。' },
-    { id:'b', label:'b ／ 違いを具体で',
-      t:'エリアも価格帯も引渡し時期も、デベロッパーごとに<b>まるで違います</b>。銀座では4社の模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。' },
-    { id:'c', label:'c ／ 並べないと分からない',
-      t:'「どこがいいか」は、<b>並べてみないと分かりません</b>。ドバイ主要4社のブースを歩いて回り、気になる住戸はその場で最新の販売状況をお調べします。' },
-    { id:'d', label:'d ／ 飛ばなくていい',
-      t:'現地に飛ばなくても、<b>ドバイは見られます</b>。模型、図面、内装仕様、最新の在庫。すべて銀座で、日本語のまま。' },
-    { id:'e', label:'e ／ 常設であること',
-      t:'一日だけの説明会ではありません。<b>常設ですから</b>、何度でも、比べ終わるまでお越しいただけます。' },
-    { id:'f', label:'f ／ 見るだけでいい',
-      t:'買う・買わないの前に、<b>まず見る</b>。それだけのために来ていただいて構いません。' },
-  ];
-
-  const LOGOS = { 'DAMAC':'damac', 'Ellington':'ellington', 'Beyond':'beyond', 'Amali':'amali' };
-
-  function fill(sel, arr){
-    arr.forEach(x => { const o=document.createElement('option');
-      o.value=x.id; o.textContent=x.label; sel.appendChild(o); });
-  }
-  function remember(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
-  function recall(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
-
-  /* 副見出し：主見出しセレクタが上書きするので、こちらを後勝ちにする */
-  const subSel = document.getElementById('sub-select');
-  if(subSel){
-    fill(subSel, SUBS);
-    window.__applySub = function(id){
-      const s = SUBS.find(x=>x.id===id) || SUBS[0];
-      document.querySelectorAll('.sheet h1').forEach(h1=>{
-        const el = h1.nextElementSibling;
-        if(el && (el.tagName==='P' || el.classList.contains('sub'))) el.innerHTML = s.t;
-      });
-      remember('ginza-flyer-sub', s.id); subSel.value = s.id;
-    };
-    const sv = recall('ginza-flyer-sub');
-    window.__applySub(SUBS.some(x=>x.id===sv) ? sv : 'a');
-    subSel.addEventListener('change', e=>window.__applySub(e.target.value));
-  }
-
-  const leadSel = document.getElementById('lead-select');
-  if(leadSel){
-    fill(leadSel, LEADS);
-    function applyLead(id){
-      const l = LEADS.find(x=>x.id===id) || LEADS[0];
-      document.querySelectorAll('.reason').forEach(p=>{ p.innerHTML = l.t; });
-      remember('ginza-flyer-lead', l.id); leadSel.value = l.id;
-    }
-    const lv = recall('ginza-flyer-lead');
-    applyLead(LEADS.some(x=>x.id===lv) ? lv : 'a');
-    leadSel.addEventListener('change', e=>applyLead(e.target.value));
-  }
-
-  /* ロゴ切替 */
-  const logoBox = document.getElementById('logo-toggle');
-  if(logoBox){
-    const DEV_LI = '.devs li, .col-l li';
-    document.querySelectorAll(DEV_LI).forEach(li=>{
-      li.dataset.name = li.textContent.trim();
-    });
-    function applyLogos(on){
-      document.querySelectorAll(DEV_LI).forEach(li=>{
-        const key = li.dataset.name;
-        const slug = LOGOS[key];
-        if(on && slug){
-          li.innerHTML = '<img src="assets/logos/'+slug+'-white.png" alt="'+key+'">';
-        } else {
-          li.textContent = key;
-        }
-      });
-      remember('ginza-flyer-logos', on ? '1' : '0');
-      logoBox.checked = on;
-    }
-    applyLogos(recall('ginza-flyer-logos') === '1');
-    logoBox.addEventListener('change', e=>applyLogos(e.target.checked));
-  }
-})();
-
-(function(){
-  /* 銀座コティビル（銀座5-9-1）の位置関係だけを描いた略図。
-     晴海通りを軸に、西＝銀座四丁目/銀座駅、東＝昭和通り/東銀座駅。 */
-  const SVG = `
-<div class="minimap">
-<svg viewBox="0 0 330 118" xmlns="http://www.w3.org/2000/svg" aria-label="銀座コティビル 案内図">
-  <!-- 街区の面 -->
-  <rect x="0" y="0" width="330" height="118" fill="none"/>
-  <g fill="rgba(255,255,255,.05)">
-    <rect x="0"   y="0"  width="72"  height="52"/>
-    <rect x="96"  y="0"  width="132" height="52"/>
-    <rect x="252" y="0"  width="78"  height="52"/>
-    <rect x="0"   y="76" width="72"  height="42"/>
-    <rect x="96"  y="76" width="132" height="42"/>
-    <rect x="252" y="76" width="78"  height="42"/>
-  </g>
-  <!-- 晴海通り -->
-  <rect x="0" y="52" width="330" height="24" fill="rgba(255,255,255,.16)"/>
-  <text x="8" y="67" font-size="7.5" fill="rgba(255,255,255,.85)" letter-spacing="1">晴海通り</text>
-  <!-- 中央通り -->
-  <rect x="72" y="0" width="24" height="118" fill="rgba(255,255,255,.13)"/>
-  <text x="84" y="14" font-size="7" fill="rgba(255,255,255,.8)"
-        transform="rotate(90 84 14)" letter-spacing="1">中央通り</text>
-  <!-- 昭和通り -->
-  <rect x="228" y="0" width="24" height="118" fill="rgba(255,255,255,.13)"/>
-  <text x="240" y="14" font-size="7" fill="rgba(255,255,255,.8)"
-        transform="rotate(90 240 14)" letter-spacing="1">昭和通り</text>
-
-  <!-- 銀座駅 -->
-  <rect x="76" y="56" width="16" height="16" rx="2" fill="#7FA8E8"/>
-  <text x="60" y="88" font-size="7.5" fill="#BBD0F2">銀座駅</text>
-  <!-- 東銀座駅 -->
-  <rect x="232" y="56" width="16" height="16" rx="2" fill="#7FA8E8"/>
-  <text x="214" y="88" font-size="7.5" fill="#BBD0F2">東銀座駅</text>
-
-  <!-- 現在地：銀座コティビル -->
-  <circle cx="176" cy="88" r="6.5" fill="#D9B872"/>
-  <circle cx="176" cy="88" r="11"  fill="none" stroke="#D9B872" stroke-width="1.2" opacity=".55"/>
-  <line x1="176" y1="81" x2="176" y2="70" stroke="#D9B872" stroke-width="1.2"/>
-  <text x="176" y="108" font-size="8" fill="#F0DCAE" text-anchor="middle" letter-spacing=".5">銀座コティビル</text>
-
-  <!-- 方位 -->
-  <text x="318" y="14" font-size="7" fill="rgba(255,255,255,.45)" text-anchor="middle">N</text>
-  <line x1="318" y1="17" x2="318" y2="27" stroke="rgba(255,255,255,.45)" stroke-width="1"/>
-  <path d="M315 20 L318 15 L321 20 Z" fill="rgba(255,255,255,.45)"/>
-</svg>
-<div class="mm-note">東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</div>
-</div>`;
-
-  const box = document.getElementById('map-toggle');
-  if(!box) return;
-
-  function applyMap(on){
-    document.querySelectorAll('.cta table').forEach(tbl=>{
-      const holder = tbl.parentElement;
-      let mm = holder.querySelector('.minimap');
-      if(on && !mm){ tbl.insertAdjacentHTML('afterend', SVG); }
-      if(!on && mm){ mm.remove(); }
-    });
-    try{ localStorage.setItem('ginza-flyer-map', on ? '1':'0'); }catch(e){}
-    box.checked = on;
-  }
-  let saved=null; try{ saved=localStorage.getItem('ginza-flyer-map'); }catch(e){}
-  applyMap(saved === '1');
-  box.addEventListener('change', e=>applyMap(e.target.checked));
-})();
-
-(function(){
-  /* ── フェード色 ──
-     どれも写真から採った色。彩度を上げず、必ず暗い側に置く。
-     既定の帯とVersion 3の帯では止め位置が違うので、profileを分けて当てる。 */
-  const FADES = [
-    { id:'navy',     label:'ネイビー ／ 砂漠の夜空（既定）', rgb:'11,20,48'  },
-    { id:'charcoal', label:'チャコール ／ Exceedの地色',     rgb:'21,23,28'  },
-    { id:'sand',     label:'ディープサンド ／ 砂の陰',       rgb:'38,27,17'  },
-    { id:'teal',     label:'ディープティール ／ 緑青のタイル', rgb:'14,42,46'  },
-    { id:'ink',      label:'墨 ／ 最もコントラストが出る',   rgb:'10,10,12'  },
-    { id:'bronze',   label:'ブロンズ ／ 間接照明の陰',       rgb:'32,24,12'  },
-  ];
-
-  const STOPS_DEFAULT = [[0,0],[6,.24],[14,.50],[24,.68],[42,.82],[62,.90],[100,.93]];
-  const STOPS_V3      = [[0,0],[5,.20],[13,.48],[22,.70],[38,.85],[60,.92],[100,.95]];
-
-  function grad(rgb, stops){
-    return 'linear-gradient(180deg,' +
-      stops.map(([p,a]) => `rgba(${rgb},${a}) ${p}%`).join(',') + ')';
-  }
-
-  const sel = document.getElementById('fade-select');
-  if(sel){
-    FADES.forEach(f=>{ const o=document.createElement('option');
-      o.value=f.id; o.textContent=f.label; sel.appendChild(o); });
-
-    function applyFade(id){
-      const f = FADES.find(x=>x.id===id) || FADES[0];
-      document.querySelectorAll('.sheet').forEach(sh=>{
-        const band = sh.querySelector('.band');
-        if(!band) return;
-        const stops = sh.classList.contains('v3') ? STOPS_V3 : STOPS_DEFAULT;
-        band.style.background = grad(f.rgb, stops);
-      });
-      /* 駅マーカーの青は紺以外だと浮くので、地の色に寄せる */
-      document.querySelectorAll('.minimap svg rect[fill="#7FA8E8"]').forEach(r=>{
-        r.setAttribute('fill', f.id==='navy' ? '#7FA8E8' : 'rgba(255,255,255,.72)');
-      });
-      try{ localStorage.setItem('ginza-flyer-fade', f.id); }catch(e){}
-      sel.value = f.id;
-    }
-    let sv=null; try{ sv=localStorage.getItem('ginza-flyer-fade'); }catch(e){}
-    applyFade(FADES.some(x=>x.id===sv) ? sv : 'navy');
-    sel.addEventListener('change', e=>applyFade(e.target.value));
-    window.__applyFade = applyFade;
-  }
-
-  /* ── EXCEED社章の表示切替 ── */
-  const mk = document.getElementById('mark-toggle');
-  if(mk){
-    function applyMark(on){
-      document.querySelectorAll('.brandrow .mark').forEach(img=>{
-        img.style.display = on ? '' : 'none';
-      });
-      try{ localStorage.setItem('ginza-flyer-mark', on?'1':'0'); }catch(e){}
-      mk.checked = on;
-    }
-    let mv=null; try{ mv=localStorage.getItem('ginza-flyer-mark'); }catch(e){}
-    applyMark(mv === null ? true : mv === '1');
-    mk.addEventListener('change', e=>applyMark(e.target.checked));
-  }
+  render();
 })();
 </script>
-
 </body>
 </html>
