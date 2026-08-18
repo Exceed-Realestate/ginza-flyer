@@ -1433,5 +1433,80 @@
     }
    }
   ]
+ },
+ {
+  "id": "threshold-announced",
+  "name": "敷居・開業告知入り ／ THE THRESHOLD, ANNOUNCED",
+  "file": "assets/heroes/threshold-announced.jpg",
+  "noDevs": true,
+  "noDate": true,
+  "note": "硝子に GRAND OPENING GINZA 10.18 と EXCEED＋4社のロゴが焼き込まれ、室内には模型まで写っている。紙面で日付・社名・社章を繰り返すと三重になるので、この画像だけ開業日ブロックとデベロッパー欄を出さない（社章もオフ推奨）。結果として紙に残るのは見出しと連絡先だけになり、上4割の石壁だけで足りる。",
+  "layouts": [
+   {
+    "id": "1",
+    "name": "壁面サイン ／ 見出しと連絡先だけ、石壁に",
+    "head": {
+     "t": 30,
+     "l": 12,
+     "r": 12,
+     "w": null,
+     "align": "center",
+     "color": "ink",
+     "scrim": 0,
+     "size": 23
+    },
+    "band": {
+     "h": 0,
+     "cols": 1,
+     "pos": "top",
+     "top": 62
+    }
+   },
+   {
+    "id": "2",
+    "name": "壁面完結 ／ すべてを石壁に",
+    "head": {
+     "zone": "band",
+     "color": "ink"
+    },
+    "band": {
+     "h": 0,
+     "cols": 1,
+     "pos": "top"
+    }
+   },
+   {
+    "id": "3",
+    "name": "壁に理由 ／ 連絡先だけ下に",
+    "head": {
+     "t": 26,
+     "l": 12,
+     "r": 12,
+     "w": null,
+     "align": "center",
+     "color": "ink",
+     "scrim": 0,
+     "size": 22
+    },
+    "band": {
+     "h": 26,
+     "cols": 1,
+     "split": true,
+     "top": 60
+    }
+   },
+   {
+    "id": "4",
+    "name": "地 ／ 壁は無地のまま残す",
+    "head": {
+     "zone": "band",
+     "color": "white"
+    },
+    "band": {
+     "h": 34,
+     "cols": 1
+    }
+   }
+  ]
  }
 ]
