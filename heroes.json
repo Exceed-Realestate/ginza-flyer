@@ -1353,20 +1353,21 @@
   "layouts": [
    {
     "id": "1",
-    "name": "壁面サイン ／ 石壁に刻む",
+    "name": "壁面サイン ／ 見出しも詳細も、石壁の中で完結",
     "head": {
-     "t": 34,
+     "t": 22,
      "l": 12,
      "r": 12,
-     "w": null,
      "align": "center",
      "color": "ink",
      "scrim": 0,
-     "size": 24
+     "size": 22
     },
     "band": {
-     "h": 24,
-     "cols": 1
+     "h": 0,
+     "cols": 1,
+     "pos": "top",
+     "top": 58
     }
    },
    {
