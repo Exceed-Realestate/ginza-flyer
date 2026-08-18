@@ -199,6 +199,10 @@
     margin-top:1.4mm; font-size:5.6pt; letter-spacing:.06em;
     color:rgba(255,255,255,.62);
   }
+
+  /* ── EXCEED マーク（社章）── */
+  .brandrow{ display:flex; align-items:center; gap:3.4mm; }
+  .brandrow .mark{ height:9mm; width:auto; display:block; flex:none; }
   @media print{ .toolbar{ display:none; } body{ padding-top:0; } }
 </style>
 </head>
@@ -213,7 +217,7 @@
   <div class="sky"></div>
 
   <div class="head">
-    <div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div>
+    <div class="brandrow"><img class="mark" src="assets/logos/exceed-mark-ink.png" alt="EXCEED"><div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div></div>
     <div class="open">
       <div class="k">日本初・銀座</div>
       <div class="d">10.18</div>
