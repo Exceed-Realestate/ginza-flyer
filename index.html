@@ -75,10 +75,8 @@
     letter-spacing:.1em;display:flex;align-items:center;justify-content:center}
   .devs li+li{border-left:.3mm solid rgba(255,255,255,.24)}
   .devs li img{width:auto;object-fit:contain;display:block;margin:0 auto}
-  .devs li img[alt="DAMAC"]{height:3.3mm;max-width:82%}
-  .devs li img[alt="Ellington"]{height:11.3mm;max-width:82%}
-  .devs li img[alt="Beyond"]{height:5.6mm;max-width:82%}
-  .devs li img[alt="Amali"]{height:4.4mm;max-width:82%}
+  /* 正規化済みロゴ: 文字高と基準線が4社で揃えてあるので、同一サイズで置くだけでよい */
+  .devs li img{height:auto;width:88%;max-width:36mm}
 
   .cols2{display:grid;grid-template-columns:56mm 1fr;gap:8mm;align-items:end}
   .cols2 .devs{flex-direction:column;border:0}
@@ -86,10 +84,7 @@
     padding:2.8mm 0;justify-content:flex-start;min-height:11mm}
   .cols2 .devs li:first-child{border-top:.3mm solid rgba(255,255,255,.34)}
   .cols2 .devs li img{margin:0}
-  .cols2 .devs li img[alt="DAMAC"]{height:3.4mm}
-  .cols2 .devs li img[alt="Ellington"]{height:11.7mm}
-  .cols2 .devs li img[alt="Beyond"]{height:5.8mm}
-  .cols2 .devs li img[alt="Amali"]{height:4.6mm}
+  .cols2 .devs li img{width:100%;max-width:48mm}
 
   .reason{margin-top:4mm;font-family:var(--mincho);font-size:8.6pt;line-height:1.8;
     letter-spacing:.04em;color:rgba(255,255,255,.92)}
@@ -185,7 +180,7 @@ function grad(rgb){ return 'linear-gradient(180deg,'+STOPS.map(([p,a])=>`rgba(${
 
 function devList(){
   return '<ul class="devs">'+DEVS.map(([n,slug])=>
-    S.logos ? `<li data-name="${n}"><img src="assets/logos/${slug}-white.png" alt="${n}"></li>`
+    S.logos ? `<li data-name="${n}"><img src="assets/logos/${slug}-norm.png" alt="${n}"></li>`
             : `<li data-name="${n}">${n}</li>`).join('')+'</ul>';
 }
 
