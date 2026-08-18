@@ -212,8 +212,12 @@ const TEXT_COLORS = [
   {id:'gold',   label:'金 ／ 見出しごと金にする', c:'#C9A961',   em:'#F0DCAE'},
   {id:'bronze', label:'ブロンズ ／ 淡い石壁に',   c:'#7A5C25',   em:'#A5822F'},
 ];
+/* 並び順＝コードの並び。既に配った版コードを壊さないため、
+   新しい値は末尾に足すだけにする（表示だけ数値順に並べ替える）。 */
 const FADE_AMTS = [{id:'auto',label:'自動 ／ レイアウト既定'}].concat(
-  [10,20,30,40,50,60,70,80,90,100].map(n=>({id:String(n),label:n+'%'})));
+  [10,20,30,40,50,60,70,80,90,100,5,15,25,35].map(n=>({id:String(n),label:n+'%'})));
+const FADE_AMTS_DISPLAY = [FADE_AMTS[0]].concat(
+  FADE_AMTS.slice(1).sort((a,b)=>Number(a.id)-Number(b.id)));
 const FADES = [
  {id:'navy',label:'ネイビー ／ 砂漠の夜空',rgb:'11,20,48'},
  {id:'charcoal',label:'チャコール ／ Exceedの地色',rgb:'21,23,28'},
@@ -233,8 +237,11 @@ const S={}; // 選択状態
 /* ── 版コード ────────────────────────────────
    全セレクタを混合基数で1つの整数に畳み、base36 5桁で表す。
    可逆なので、コードを入れれば同じ組み合わせに戻せる。 */
+/* 版コードの並びは凍結する。画像を足すときは CODE_IMAGE_ORDER の末尾に足すだけ。
+   並べ替えたり途中を消すと、既に配ったコードが別の版を指してしまう。 */
+const CODE_IMAGE_ORDER = ["ginza-vanishing-point", "ginza-corridor", "morning-crossing", "elevated-ginza", "clocktower-burj", "the-window-day", "the-window-dusk", "the-model", "iconic-daylight", "blue-hour", "window-reflection", "new-office", "elevated-city", "human-led", "champagne-sunrise", "architectural-model", "office-beacon", "the-threshold", "threshold-branded"];
 const AXES = [
-  {k:'image',    vals:()=>HEROES.map(h=>h.id)},
+  {k:'image',    vals:()=>CODE_IMAGE_ORDER},
   {k:'layout',   vals:()=>['all','1','2','3','4','5']},
   {k:'headline', vals:()=>HEADLINES.map(x=>x.id)},
   {k:'sub',      vals:()=>SUBS.map(x=>x.id)},
@@ -246,6 +253,7 @@ const AXES = [
   {k:'mark',     vals:()=>['0','1']},
 ];
 function stateVal(a){
+  if(a.k==='image' && S.image && !CODE_IMAGE_ORDER.includes(S.image)) CODE_IMAGE_ORDER.push(S.image);
   const v=S[a.k];
   if(a.k==='logos'||a.k==='mark') return v?'1':'0';
   return v==null ? a.vals()[0] : String(v);
@@ -404,7 +412,7 @@ function render(){
 
   const faS=document.getElementById('fadeamt-select');
   fill(iS,HEROES,'id','name'); fill(hS,HEADLINES); fill(sS,SUBS); fill(dS,LEADS); const tcS=document.getElementById('textcol-select');
-  fill(fS,FADES); fill(faS,FADE_AMTS); fill(tcS,TEXT_COLORS);
+  fill(fS,FADES); fill(faS,FADE_AMTS_DISPLAY); fill(tcS,TEXT_COLORS);
 
   function syncLayouts(){
     const img = HEROES.find(x=>x.id===S.image)||HEROES[0];
