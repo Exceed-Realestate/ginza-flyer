@@ -7,9 +7,9 @@ B5チラシ・レイアウト検討用ページ。
 
 | ページ | 内容 |
 |---|---|
-| `index.html` | 全案を1ページに（A採用 ＋ V2 縦組み ／ V3 下寄せ ／ V4 左柱） |
-| `a-approved.html` | 採用中のA案のみ |
-| `variations.html` | V2 / V3 / V4 のみ |
+| `index.html` | Version 1〜4 を1ページに |
+| `version-1.html` | **Version 1（採用）** — 見出しは空の左上 |
+| `versions-2-4.html` | Version 2（縦組み）／ 3（下寄せ）／ 4（左柱） |
 
 サイズは B5 片面 182 × 257 mm。入稿時は塗り足し3mm（188 × 263 mm）。
 
