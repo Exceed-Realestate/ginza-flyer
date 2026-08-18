@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>銀座チラシ B5 — Version 2〜4 — EXCEED 銀座 B5</title>
+<title>銀座チラシ B5 — Version 2〜3 — EXCEED 銀座 B5</title>
 <style>
   /* ═══════════════════════════════════════════════════════
      A案の写真・フェードはそのまま。文字の置き方だけ4通り。
@@ -212,20 +212,33 @@
     letter-spacing:.04em; cursor:pointer; white-space:nowrap;
   }
   .toolbar .tb-check input{ accent-color:#D9B872; width:15px; height:15px; cursor:pointer; }
-  /* ロゴ表示時。高さと幅の両方で抑えて、4社の見えの大きさを揃える */
-  .devs li img{
-    max-height:7mm; max-width:76%; width:auto; object-fit:contain;
-    display:block; margin:0 auto;
-  }
-  .v4 .col-l li img{ max-height:6mm; max-width:92%; margin:0; }
+  /* ロゴ表示時。
+     外形ではなく「ワードマークの文字高」を揃える。
+     実測: DAMAC=画像高の100%, Ellington=29%, Beyond=59%, Amali=75%
+     が文字帯なので、文字高が 2.5mm になる表示高を社ごとに与える。 */
+  .devs li img{ width:auto; object-fit:contain; display:block; margin:0 auto; }
+  .devs li img[alt="DAMAC"]    { height:2.5mm;  max-width:74%; }
+  .devs li img[alt="Ellington"]{ height:8.6mm;  max-width:74%; }
+  .devs li img[alt="Beyond"]   { height:4.25mm; max-width:74%; }
+  .devs li img[alt="Amali"]    { height:3.35mm; max-width:74%; }
+  /* Version 4 の左柱は幅が狭いので一段小さく（比率は保つ） */
+  .v4 .col-l li img{ margin:0; }
+  .v4 .col-l li img[alt="DAMAC"]    { height:2.1mm;  max-width:100%; }
+  .v4 .col-l li img[alt="Ellington"]{ height:7.2mm;  max-width:100%; }
+  .v4 .col-l li img[alt="Beyond"]   { height:3.55mm; max-width:100%; }
+  .v4 .col-l li img[alt="Amali"]    { height:2.8mm;  max-width:100%; }
+  /* 高さがバラつくぶん、行の中で天地中央に置く */
+  .devs li{ display:flex; align-items:center; justify-content:center; }
+  .v4 .col-l li{ display:flex; align-items:center; justify-content:flex-start; min-height:8mm; }
 
   /* ── ミニ地図（チェックボックスで表示） ── */
-  .minimap{ margin-top:3.4mm; }
+  .minimap{ margin-top:2.8mm; max-width:62mm; }
   .minimap svg{ width:100%; height:auto; display:block; }
   .minimap .mm-note{
-    margin-top:1.4mm; font-size:5.6pt; letter-spacing:.06em;
-    color:rgba(255,255,255,.62);
+    margin-top:1.1mm; font-size:4.8pt; line-height:1.5; letter-spacing:.04em;
+    color:rgba(255,255,255,.58);
   }
+  .v4 .minimap{ max-width:100%; }
 
   /* ── EXCEED マーク（社章）── */
   .brandrow{ display:flex; align-items:center; gap:3.4mm; }
@@ -236,40 +249,9 @@
 <body>
 
 <!-- ══════════ VERSION 2 縦組み ══════════ -->
-<div class="cap">VERSION 2 ／ 縦組み <span>— 見出しが右から縦に落ちる。最も日本的で、写真が広く見える</span></div>
-<section class="sheet v2">
-  <div class="tag">VERSION 2</div>
-  <img src="assets/hero-v4-daylight.png" alt="銀座とドバイ"><div class="sky"></div>
-  <div class="head">
-    <div class="brandrow"><img class="mark" src="assets/logos/exceed-mark-ink.png" alt="EXCEED"><div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div></div>
-    <div class="open"><div class="k">日本初・銀座</div><div class="d">10.18</div><div class="w">2026 SUN</div></div>
-  </div>
-  <div class="tate">
-    <span class="dot"></span>
-    <h1>ドバイを、<em>比べて</em>選べる<br>場所ができました。</h1>
-    <div class="sub">ドバイ主要デベロッパーが<br>常設で一堂に会する、<br>日本初のショールーム。</div>
-  </div>
-  <div class="band">
-    <ul class="devs"><li>DAMAC</li><li>Ellington</li><li>Beyond</li><li>Amali</li></ul>
-    <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。</p>
-    <div class="cta">
-      <div>
-        <h2><em>LINE公式アカウント</em>、開設しました。</h2>
-        <table>
-          <tr><th>会 場</th><td>東京都中央区銀座5-9-1 銀座コティビル <span class="fill">【◯階】</span><br>東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</td></tr>
-          <tr><th>開 業</th><td>2026年10月18日（日）　友だち追加で、開業のご案内とドバイ最新物件の情報をお届けします。</td></tr>
-        </table>
-      </div>
-      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>友だち追加</span></div>
-    </div>
-    <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
-  </div>
-</section>
-
-<!-- ══════════ VERSION 3 全部下 ══════════ -->
-<div class="cap">VERSION 3 ／ 全部下 <span>— 空に何も置かない。写真が一番きれいに見え、文字は一箇所にまとまる</span></div>
+<div class="cap">VERSION 2 ／ 全部下 <span>— 空に何も置かない。写真が一番きれいに見え、文字は一箇所にまとまる</span></div>
 <section class="sheet v3">
-  <div class="tag">VERSION 3</div>
+  <div class="tag">VERSION 2</div>
   <img src="assets/hero-v4-daylight.png" alt="銀座とドバイ"><div class="sky"></div>
   <div class="head">
     <div class="brandrow"><img class="mark" src="assets/logos/exceed-mark-ink.png" alt="EXCEED"><div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div></div>
@@ -295,10 +277,10 @@
   </div>
 </section>
 
-<!-- ══════════ VERSION 4 左柱・非対称 ══════════ -->
-<div class="cap">VERSION 4 ／ 左柱・非対称 <span>— 4社を縦に積む。雑誌的で、社名が一社ずつ効く</span></div>
+<!-- ══════════ VERSION 3 左柱・非対称 ══════════ -->
+<div class="cap">VERSION 3 ／ 左柱・非対称 <span>— 4社を縦に積む。雑誌的で、社名が一社ずつ効く</span></div>
 <section class="sheet v4">
-  <div class="tag">VERSION 4</div>
+  <div class="tag">VERSION 3</div>
   <img src="assets/hero-v4-daylight.png" alt="銀座とドバイ"><div class="sky"></div>
   <div class="head">
     <div class="brandrow"><img class="mark" src="assets/logos/exceed-mark-ink.png" alt="EXCEED"><div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div></div>
@@ -343,7 +325,10 @@
   <span class="tb-label">リード文 ／ Lead</span>
   <select id="lead-select"></select>
   <label class="tb-check"><input type="checkbox" id="logo-toggle"> デベロッパーロゴ</label>
+  <span class="tb-label">フェード色 ／ Fade</span>
+  <select id="fade-select"></select>
   <label class="tb-check"><input type="checkbox" id="map-toggle"> 地図</label>
+  <label class="tb-check"><input type="checkbox" id="mark-toggle" checked> EXCEED社章</label>
   <span class="tb-note">選択は保存されます</span>
 </div>
 <script>
@@ -637,6 +622,69 @@ const BACKGROUNDS = [
   let saved=null; try{ saved=localStorage.getItem('ginza-flyer-map'); }catch(e){}
   applyMap(saved === '1');
   box.addEventListener('change', e=>applyMap(e.target.checked));
+})();
+
+(function(){
+  /* ── フェード色 ──
+     どれも写真から採った色。彩度を上げず、必ず暗い側に置く。
+     既定の帯とVersion 3の帯では止め位置が違うので、profileを分けて当てる。 */
+  const FADES = [
+    { id:'navy',     label:'ネイビー ／ 砂漠の夜空（既定）', rgb:'11,20,48'  },
+    { id:'charcoal', label:'チャコール ／ Exceedの地色',     rgb:'21,23,28'  },
+    { id:'sand',     label:'ディープサンド ／ 砂の陰',       rgb:'38,27,17'  },
+    { id:'teal',     label:'ディープティール ／ 緑青のタイル', rgb:'14,42,46'  },
+    { id:'ink',      label:'墨 ／ 最もコントラストが出る',   rgb:'10,10,12'  },
+    { id:'bronze',   label:'ブロンズ ／ 間接照明の陰',       rgb:'32,24,12'  },
+  ];
+
+  const STOPS_DEFAULT = [[0,0],[6,.24],[14,.50],[24,.68],[42,.82],[62,.90],[100,.93]];
+  const STOPS_V3      = [[0,0],[5,.20],[13,.48],[22,.70],[38,.85],[60,.92],[100,.95]];
+
+  function grad(rgb, stops){
+    return 'linear-gradient(180deg,' +
+      stops.map(([p,a]) => `rgba(${rgb},${a}) ${p}%`).join(',') + ')';
+  }
+
+  const sel = document.getElementById('fade-select');
+  if(sel){
+    FADES.forEach(f=>{ const o=document.createElement('option');
+      o.value=f.id; o.textContent=f.label; sel.appendChild(o); });
+
+    function applyFade(id){
+      const f = FADES.find(x=>x.id===id) || FADES[0];
+      document.querySelectorAll('.sheet').forEach(sh=>{
+        const band = sh.querySelector('.band');
+        if(!band) return;
+        const stops = sh.classList.contains('v3') ? STOPS_V3 : STOPS_DEFAULT;
+        band.style.background = grad(f.rgb, stops);
+      });
+      /* 駅マーカーの青は紺以外だと浮くので、地の色に寄せる */
+      document.querySelectorAll('.minimap svg rect[fill="#7FA8E8"]').forEach(r=>{
+        r.setAttribute('fill', f.id==='navy' ? '#7FA8E8' : 'rgba(255,255,255,.72)');
+      });
+      try{ localStorage.setItem('ginza-flyer-fade', f.id); }catch(e){}
+      sel.value = f.id;
+    }
+    let sv=null; try{ sv=localStorage.getItem('ginza-flyer-fade'); }catch(e){}
+    applyFade(FADES.some(x=>x.id===sv) ? sv : 'navy');
+    sel.addEventListener('change', e=>applyFade(e.target.value));
+    window.__applyFade = applyFade;
+  }
+
+  /* ── EXCEED社章の表示切替 ── */
+  const mk = document.getElementById('mark-toggle');
+  if(mk){
+    function applyMark(on){
+      document.querySelectorAll('.brandrow .mark').forEach(img=>{
+        img.style.display = on ? '' : 'none';
+      });
+      try{ localStorage.setItem('ginza-flyer-mark', on?'1':'0'); }catch(e){}
+      mk.checked = on;
+    }
+    let mv=null; try{ mv=localStorage.getItem('ginza-flyer-mark'); }catch(e){}
+    applyMark(mv === null ? true : mv === '1');
+    mk.addEventListener('change', e=>applyMark(e.target.checked));
+  }
 })();
 </script>
 

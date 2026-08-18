@@ -185,20 +185,33 @@
     letter-spacing:.04em; cursor:pointer; white-space:nowrap;
   }
   .toolbar .tb-check input{ accent-color:#D9B872; width:15px; height:15px; cursor:pointer; }
-  /* ロゴ表示時。高さと幅の両方で抑えて、4社の見えの大きさを揃える */
-  .devs li img{
-    max-height:7mm; max-width:76%; width:auto; object-fit:contain;
-    display:block; margin:0 auto;
-  }
-  .v4 .col-l li img{ max-height:6mm; max-width:92%; margin:0; }
+  /* ロゴ表示時。
+     外形ではなく「ワードマークの文字高」を揃える。
+     実測: DAMAC=画像高の100%, Ellington=29%, Beyond=59%, Amali=75%
+     が文字帯なので、文字高が 2.5mm になる表示高を社ごとに与える。 */
+  .devs li img{ width:auto; object-fit:contain; display:block; margin:0 auto; }
+  .devs li img[alt="DAMAC"]    { height:2.5mm;  max-width:74%; }
+  .devs li img[alt="Ellington"]{ height:8.6mm;  max-width:74%; }
+  .devs li img[alt="Beyond"]   { height:4.25mm; max-width:74%; }
+  .devs li img[alt="Amali"]    { height:3.35mm; max-width:74%; }
+  /* Version 4 の左柱は幅が狭いので一段小さく（比率は保つ） */
+  .v4 .col-l li img{ margin:0; }
+  .v4 .col-l li img[alt="DAMAC"]    { height:2.1mm;  max-width:100%; }
+  .v4 .col-l li img[alt="Ellington"]{ height:7.2mm;  max-width:100%; }
+  .v4 .col-l li img[alt="Beyond"]   { height:3.55mm; max-width:100%; }
+  .v4 .col-l li img[alt="Amali"]    { height:2.8mm;  max-width:100%; }
+  /* 高さがバラつくぶん、行の中で天地中央に置く */
+  .devs li{ display:flex; align-items:center; justify-content:center; }
+  .v4 .col-l li{ display:flex; align-items:center; justify-content:flex-start; min-height:8mm; }
 
   /* ── ミニ地図（チェックボックスで表示） ── */
-  .minimap{ margin-top:3.4mm; }
+  .minimap{ margin-top:2.8mm; max-width:62mm; }
   .minimap svg{ width:100%; height:auto; display:block; }
   .minimap .mm-note{
-    margin-top:1.4mm; font-size:5.6pt; letter-spacing:.06em;
-    color:rgba(255,255,255,.62);
+    margin-top:1.1mm; font-size:4.8pt; line-height:1.5; letter-spacing:.04em;
+    color:rgba(255,255,255,.58);
   }
+  .v4 .minimap{ max-width:100%; }
 
   /* ── EXCEED マーク（社章）── */
   .brandrow{ display:flex; align-items:center; gap:3.4mm; }
@@ -270,7 +283,10 @@
   <span class="tb-label">リード文 ／ Lead</span>
   <select id="lead-select"></select>
   <label class="tb-check"><input type="checkbox" id="logo-toggle"> デベロッパーロゴ</label>
+  <span class="tb-label">フェード色 ／ Fade</span>
+  <select id="fade-select"></select>
   <label class="tb-check"><input type="checkbox" id="map-toggle"> 地図</label>
+  <label class="tb-check"><input type="checkbox" id="mark-toggle" checked> EXCEED社章</label>
   <span class="tb-note">選択は保存されます</span>
 </div>
 <script>
@@ -564,6 +580,69 @@ const BACKGROUNDS = [
   let saved=null; try{ saved=localStorage.getItem('ginza-flyer-map'); }catch(e){}
   applyMap(saved === '1');
   box.addEventListener('change', e=>applyMap(e.target.checked));
+})();
+
+(function(){
+  /* ── フェード色 ──
+     どれも写真から採った色。彩度を上げず、必ず暗い側に置く。
+     既定の帯とVersion 3の帯では止め位置が違うので、profileを分けて当てる。 */
+  const FADES = [
+    { id:'navy',     label:'ネイビー ／ 砂漠の夜空（既定）', rgb:'11,20,48'  },
+    { id:'charcoal', label:'チャコール ／ Exceedの地色',     rgb:'21,23,28'  },
+    { id:'sand',     label:'ディープサンド ／ 砂の陰',       rgb:'38,27,17'  },
+    { id:'teal',     label:'ディープティール ／ 緑青のタイル', rgb:'14,42,46'  },
+    { id:'ink',      label:'墨 ／ 最もコントラストが出る',   rgb:'10,10,12'  },
+    { id:'bronze',   label:'ブロンズ ／ 間接照明の陰',       rgb:'32,24,12'  },
+  ];
+
+  const STOPS_DEFAULT = [[0,0],[6,.24],[14,.50],[24,.68],[42,.82],[62,.90],[100,.93]];
+  const STOPS_V3      = [[0,0],[5,.20],[13,.48],[22,.70],[38,.85],[60,.92],[100,.95]];
+
+  function grad(rgb, stops){
+    return 'linear-gradient(180deg,' +
+      stops.map(([p,a]) => `rgba(${rgb},${a}) ${p}%`).join(',') + ')';
+  }
+
+  const sel = document.getElementById('fade-select');
+  if(sel){
+    FADES.forEach(f=>{ const o=document.createElement('option');
+      o.value=f.id; o.textContent=f.label; sel.appendChild(o); });
+
+    function applyFade(id){
+      const f = FADES.find(x=>x.id===id) || FADES[0];
+      document.querySelectorAll('.sheet').forEach(sh=>{
+        const band = sh.querySelector('.band');
+        if(!band) return;
+        const stops = sh.classList.contains('v3') ? STOPS_V3 : STOPS_DEFAULT;
+        band.style.background = grad(f.rgb, stops);
+      });
+      /* 駅マーカーの青は紺以外だと浮くので、地の色に寄せる */
+      document.querySelectorAll('.minimap svg rect[fill="#7FA8E8"]').forEach(r=>{
+        r.setAttribute('fill', f.id==='navy' ? '#7FA8E8' : 'rgba(255,255,255,.72)');
+      });
+      try{ localStorage.setItem('ginza-flyer-fade', f.id); }catch(e){}
+      sel.value = f.id;
+    }
+    let sv=null; try{ sv=localStorage.getItem('ginza-flyer-fade'); }catch(e){}
+    applyFade(FADES.some(x=>x.id===sv) ? sv : 'navy');
+    sel.addEventListener('change', e=>applyFade(e.target.value));
+    window.__applyFade = applyFade;
+  }
+
+  /* ── EXCEED社章の表示切替 ── */
+  const mk = document.getElementById('mark-toggle');
+  if(mk){
+    function applyMark(on){
+      document.querySelectorAll('.brandrow .mark').forEach(img=>{
+        img.style.display = on ? '' : 'none';
+      });
+      try{ localStorage.setItem('ginza-flyer-mark', on?'1':'0'); }catch(e){}
+      mk.checked = on;
+    }
+    let mv=null; try{ mv=localStorage.getItem('ginza-flyer-mark'); }catch(e){}
+    applyMark(mv === null ? true : mv === '1');
+    mk.addEventListener('change', e=>applyMark(e.target.checked));
+  }
 })();
 </script>
 
