@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>A案 — EXCEED 銀座 B5 チラシ</title>
+<style>
+  /* ═══════════════════════════════════════════════════════
+     B5 片面 182 × 257 mm ／ 入稿時 塗り足し3mm（188 × 263）
+
+     写真は全面。銀座の街（椰子・看板・時計塔・人）は隠さない。
+     見出しは「空」に置く — もともと空いている場所だから、
+     写真を沈める必要がない。
+     予約情報だけ、最下部の帯に。帯の上端はフェードで写真へ溶かす。
+     ═══════════════════════════════════════════════════════ */
+  @page { size: 182mm 257mm; margin: 0; }
+
+  :root{
+    --gold:   #A5822F;
+    --gold-l: #D9B872;
+    --ink:    #10131A;
+    --ink-s:  #464B57;
+    --navy:   #0B1430;
+
+    --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+    --gothic:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+    --roman: "Didot","Bodoni 72","Baskerville",serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  body{
+    background:#4E4E51; padding:26px; display:flex; flex-direction:column;
+    align-items:center; gap:12px; font-family:var(--gothic);
+    -webkit-font-smoothing:antialiased;
+  }
+  .cap{ color:#fff; font-size:11px; letter-spacing:.2em; opacity:.7; }
+
+  .sheet{
+    width:182mm; height:257mm; position:relative; overflow:hidden;
+    box-shadow:0 16px 54px rgba(0,0,0,.5); background:#0B1430;
+  }
+
+  /* 写真：全面。空をやや多めに見せる位置。 */
+  .sheet > img{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:50% 34%; display:block;
+  }
+
+  /* 空だけをほんの少し持ち上げる。見出しの足元を安定させるためだけ。 */
+  .sky{
+    position:absolute; left:0; right:0; top:0; height:44%;
+    background:linear-gradient(180deg,
+      rgba(255,255,255,.86)   0%,
+      rgba(255,255,255,.72)  34%,
+      rgba(255,255,255,.34)  68%,
+      rgba(255,255,255,0)   100%);
+  }
+
+  /* ── 天：ブランド ── */
+  .head{
+    position:absolute; top:9mm; left:12mm; right:12mm; z-index:4;
+    display:flex; justify-content:space-between; align-items:flex-start;
+  }
+  .head .brand{
+    font-family:var(--roman); font-size:12pt; letter-spacing:.34em; color:var(--ink);
+  }
+  .head .brand small{
+    display:block; font-family:var(--gothic); font-size:5.8pt; letter-spacing:.20em;
+    color:var(--ink-s); margin-top:1.2mm;
+  }
+  .head .open{ text-align:right; }
+  .head .open .k{
+    font-size:6.6pt; letter-spacing:.24em; color:var(--gold); font-weight:700; margin-bottom:1.2mm;
+  }
+  .head .open .d{
+    font-family:var(--roman); font-size:20pt; line-height:1; color:var(--ink); letter-spacing:.02em;
+  }
+  .head .open .w{
+    font-size:6.2pt; letter-spacing:.24em; color:var(--ink-s); margin-top:1mm;
+  }
+
+  /* ── 見出し：空の中に ── */
+  .lead{ position:absolute; top:27mm; left:12mm; right:12mm; z-index:4; }
+  .lead .bar{ width:15mm; height:.45mm; background:var(--gold); margin-bottom:4.4mm; }
+  .lead h1{
+    font-family:var(--mincho); font-weight:600; color:var(--ink);
+    font-size:21pt; line-height:1.5; letter-spacing:.03em;
+    font-feature-settings:"palt" 1;
+  }
+  .lead h1 em{ font-style:normal; color:var(--gold); }
+  .lead p{
+    margin-top:3.6mm; font-size:8.4pt; line-height:1.8; letter-spacing:.07em;
+    color:#2C313C; max-width:118mm;
+  }
+
+  /* ── 地：予約帯。上端だけフェードで写真に溶かす ── */
+  .band{
+    position:absolute; left:0; right:0; bottom:0; z-index:4;
+    padding:14mm 12mm 6mm; color:#fff;
+    text-shadow:0 1px 6px rgba(4,8,22,.85), 0 0 18px rgba(4,8,22,.55);
+    background:linear-gradient(180deg,
+      rgba(11,20,48,0)     0%,
+      rgba(11,20,48,.24)   6%,
+      rgba(11,20,48,.50)  14%,
+      rgba(11,20,48,.68)  24%,
+      rgba(11,20,48,.82)  42%,
+      rgba(11,20,48,.90)  62%,
+      rgba(11,20,48,.93) 100%);
+  }
+
+  .devs{
+    display:flex; list-style:none;
+    border-top:.3mm solid rgba(255,255,255,.34);
+    border-bottom:.3mm solid rgba(255,255,255,.34);
+  }
+  .devs li{
+    flex:1; text-align:center; padding:3mm 0; font-family:var(--roman);
+    font-size:12pt; letter-spacing:.10em; color:#fff;
+  }
+  .devs li + li{ border-left:.3mm solid rgba(255,255,255,.24); }
+
+  .reason{
+    margin-top:4mm; font-family:var(--mincho); font-size:8.6pt; line-height:1.8;
+    letter-spacing:.04em; color:rgba(255,255,255,.90);
+  }
+  .reason b{ font-weight:600; color:var(--gold-l); }
+
+  .cta{
+    margin-top:4.4mm; padding-top:4mm; border-top:.3mm solid rgba(217,184,114,.5);
+    display:grid; grid-template-columns:1fr 19mm; gap:5.5mm; align-items:center;
+  }
+  .cta h2{
+    font-family:var(--mincho); font-size:11pt; font-weight:600; letter-spacing:.05em;
+    margin-bottom:2.4mm;
+  }
+  .cta h2 em{ font-style:normal; color:var(--gold-l); }
+  .cta table{ border-collapse:collapse; font-size:7.4pt; line-height:1.9; }
+  .cta th{
+    text-align:left; font-size:6.2pt; letter-spacing:.18em; color:rgba(217,184,114,.9);
+    font-weight:700; padding-right:3.6mm; white-space:nowrap; vertical-align:top;
+  }
+  .fill{
+    background:rgba(255,255,255,.14); border-bottom:.3mm dashed rgba(217,184,114,.8);
+    padding:0 1.7mm; color:#F2DDB0;
+  }
+  .qr{ background:transparent; padding:0; align-self:center; text-align:center; }
+  .qr img{ width:100%; display:block; }
+  .qr span{ display:block; margin-top:1.6mm; font-size:5.4pt; letter-spacing:.14em; color:rgba(255,255,255,.86); }
+
+  .legal{ margin-top:3.6mm; font-size:4.9pt; line-height:1.6; color:rgba(255,255,255,.50); }
+  .legal u{ text-decoration:none; border-bottom:.3mm dashed #E08A6E; }
+
+  .marker{
+    position:absolute; top:0; left:0; background:#A9452F; color:#fff; z-index:9;
+    font-size:6.2pt; font-weight:700; padding:1.5px 6px; letter-spacing:.10em;
+  }
+</style>
+</head>
+<body>
+
+<div class="cap">A案 ／ 全面写真・文字は写真の上（透過フェード）</div>
+
+<section class="sheet">
+  <div class="marker">【　】未確定</div>
+
+  <img src="assets/hero-v4-daylight.png" alt="銀座とドバイ">
+  <div class="sky"></div>
+
+  <div class="head">
+    <div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div>
+    <div class="open">
+      <div class="k">日本初・銀座</div>
+      <div class="d">10.18</div>
+      <div class="w">2026 SUN OPEN</div>
+    </div>
+  </div>
+
+  <div class="lead">
+    <div class="bar"></div>
+    <h1>ドバイを、<em>&ldquo;比べて&rdquo;</em><br>選べる場所ができました。</h1>
+    <p>ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。</p>
+  </div>
+
+  <div class="band">
+    <ul class="devs">
+      <li>DAMAC</li><li>Ellington</li><li>Beyond</li><li>Amali</li>
+    </ul>
+
+    <p class="reason">
+      一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。<b>無理な勧誘は一切いたしません。</b>
+    </p>
+
+    <div class="cta">
+      <div>
+        <h2>ご来場は<em>完全予約制</em>です。ご相談は無料。</h2>
+        <table>
+          <tr><th>会 場</th><td>東京都中央区銀座5-9-1 銀座コティビル <span class="fill">【◯階】</span><br>東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</td></tr>
+          <tr><th>ご予約</th><td><span class="fill">【電話番号】</span>　平日 10:00–19:00　／　LINE <span class="fill">【ID】</span></td></tr>
+        </table>
+      </div>
+      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>LINEでご予約</span></div>
+    </div>
+
+    <p class="legal">
+      ※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u>
+    </p>
+  </div>
+</section>
+
+</body>
+</html>

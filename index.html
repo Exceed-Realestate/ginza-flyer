@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>銀座チラシ B5 — 全案（A採用＋V2/V3/V4） — EXCEED 銀座 B5</title>
+<style>
+  /* ═══════════════════════════════════════════════════════
+     A案の写真・フェードはそのまま。文字の置き方だけ4通り。
+     V1 中央揃え ／ V2 縦組み ／ V3 全部下 ／ V4 左柱・非対称
+     B5 片面 182 × 257 mm
+     ═══════════════════════════════════════════════════════ */
+  @page { size: 182mm 257mm; margin: 0; }
+
+  :root{
+    --gold:   #A5822F;
+    --gold-l: #DCC189;
+    --ink:    #10131A;
+    --ink-s:  #3E434E;
+    --navy:   #0B1430;
+
+    --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+    --gothic:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+    --roman: "Didot","Bodoni 72","Baskerville",serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  body{
+    background:#4E4E51; padding:26px; display:flex; flex-direction:column;
+    align-items:center; gap:10px; font-family:var(--gothic);
+    -webkit-font-smoothing:antialiased;
+  }
+  .cap{
+    color:#fff; font-size:12px; letter-spacing:.16em; opacity:.9;
+    margin-top:16px; font-weight:700;
+  }
+  .cap span{ font-weight:400; opacity:.6; letter-spacing:.06em; }
+
+  .sheet{
+    width:182mm; height:257mm; position:relative; overflow:hidden;
+    background:#0B1430; box-shadow:0 14px 44px rgba(0,0,0,.5);
+  }
+  .sheet > img{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:50% 34%; display:block;
+  }
+  .sky{
+    position:absolute; left:0; right:0; top:0; height:44%;
+    background:linear-gradient(180deg,
+      rgba(255,255,255,.86) 0%, rgba(255,255,255,.72) 34%,
+      rgba(255,255,255,.34) 68%, rgba(255,255,255,0) 100%);
+  }
+  .band{
+    position:absolute; left:0; right:0; bottom:0; z-index:4;
+    padding:14mm 12mm 6mm; color:#fff;
+    text-shadow:0 1px 6px rgba(4,8,22,.85), 0 0 18px rgba(4,8,22,.55);
+    background:linear-gradient(180deg,
+      rgba(11,20,48,0) 0%, rgba(11,20,48,.24) 6%, rgba(11,20,48,.50) 14%,
+      rgba(11,20,48,.68) 24%, rgba(11,20,48,.82) 42%, rgba(11,20,48,.90) 62%,
+      rgba(11,20,48,.93) 100%);
+  }
+
+  /* 共通パーツ */
+  .head{
+    position:absolute; top:9mm; left:12mm; right:12mm; z-index:5;
+    display:flex; justify-content:space-between; align-items:flex-start;
+  }
+  .brand{ font-family:var(--roman); font-size:11.5pt; letter-spacing:.34em; color:var(--ink); }
+  .brand small{
+    display:block; font-family:var(--gothic); font-size:5.6pt; letter-spacing:.20em;
+    color:var(--ink-s); margin-top:1.1mm;
+  }
+  .open{ text-align:right; }
+  .open .k{ font-size:6.4pt; letter-spacing:.24em; color:var(--gold); font-weight:700; margin-bottom:1.1mm; }
+  .open .d{ font-family:var(--roman); font-size:19pt; line-height:1; color:var(--ink); letter-spacing:.02em; }
+  .open .w{ font-size:6pt; letter-spacing:.24em; color:var(--ink-s); margin-top:.9mm; }
+
+  h1{
+    font-family:var(--mincho); font-weight:600; font-size:21pt; line-height:1.48;
+    letter-spacing:.03em; font-feature-settings:"palt" 1;
+  }
+  h1 em{ font-style:normal; color:var(--gold); }
+  .bar{ width:15mm; height:.45mm; background:var(--gold); }
+
+  .devs{ display:flex; list-style:none;
+    border-top:.3mm solid rgba(255,255,255,.34);
+    border-bottom:.3mm solid rgba(255,255,255,.34); }
+  .devs li{ flex:1; text-align:center; padding:2.8mm 0; font-family:var(--roman);
+    font-size:11.5pt; letter-spacing:.10em; color:#fff; }
+  .devs li + li{ border-left:.3mm solid rgba(255,255,255,.24); }
+
+  .reason{ font-family:var(--mincho); font-size:8.4pt; line-height:1.8;
+    letter-spacing:.04em; color:rgba(255,255,255,.92); }
+  .reason b{ font-weight:600; color:var(--gold-l); }
+
+  .cta h2{ font-family:var(--mincho); font-size:11pt; font-weight:600;
+    letter-spacing:.05em; margin-bottom:2.2mm; }
+  .cta h2 em{ font-style:normal; color:var(--gold-l); }
+  .cta table{ border-collapse:collapse; font-size:7.4pt; line-height:1.88; }
+  .cta th{ text-align:left; font-size:6.2pt; letter-spacing:.18em;
+    color:rgba(220,193,137,.9); font-weight:700; padding-right:3.6mm;
+    white-space:nowrap; vertical-align:top; }
+  .fill{ background:rgba(255,255,255,.14);
+    border-bottom:.3mm dashed rgba(220,193,137,.8); padding:0 1.7mm; color:#F0D9A8; }
+  .qr{ background:transparent; padding:0; text-align:center; }
+  .qr img{ width:100%; display:block; }
+  .qr span{ display:block; margin-top:1.6mm; font-size:5.4pt; letter-spacing:.14em; color:rgba(255,255,255,.86); }
+  .legal{ font-size:4.9pt; line-height:1.6; color:rgba(255,255,255,.52); }
+  .legal u{ text-decoration:none; border-bottom:.3mm dashed #E08A6E; }
+
+  /* ── V1 中央揃え ───────────────────────────────── */
+  .v1 .lead{ position:absolute; top:26mm; left:12mm; right:12mm; z-index:5; text-align:center; }
+  .v1 .lead .bar{ margin:0 auto 4.2mm; }
+  .v1 .lead h1{ color:var(--ink); }
+  .v1 .lead p{ margin-top:3.4mm; font-size:8.4pt; line-height:1.8;
+    letter-spacing:.07em; color:var(--ink-s); }
+  .v1 .band{ text-align:center; }
+  .v1 .reason{ margin-top:4mm; }
+  .v1 .cta{ margin-top:4.4mm; padding-top:3.8mm;
+    border-top:.3mm solid rgba(220,193,137,.5); }
+  .v1 .cta table{ margin:0 auto; text-align:left; }
+  .v1 .qr{ width:19mm; margin:3.4mm auto 0; }
+  .v1 .legal{ margin-top:3.4mm; text-align:left; }
+
+  /* ── V2 縦組み ─────────────────────────────────── */
+  .v2 .tate{
+    position:absolute; top:22mm; right:12mm; z-index:5;
+    writing-mode:vertical-rl; text-orientation:mixed;
+    display:flex; flex-direction:row; gap:4.5mm; align-items:flex-start;
+  }
+  .v2 .tate h1{ font-size:19pt; line-height:1.75; letter-spacing:.10em; color:var(--ink); }
+  .v2 .tate .sub{ font-size:8pt; line-height:1.95; letter-spacing:.12em; color:var(--ink-s); }
+  .v2 .tate .dot{ width:1.6mm; height:1.6mm; border-radius:50%;
+    background:var(--gold); flex:none; margin-top:1mm; }
+  .v2 .band{ padding-top:13mm; }
+  .v2 .reason{ margin-top:3.8mm; }
+  .v2 .cta{ margin-top:4mm; padding-top:3.6mm;
+    border-top:.3mm solid rgba(220,193,137,.5);
+    display:grid; grid-template-columns:1fr 19mm; gap:5.5mm; align-items:center; }
+  .v2 .legal{ margin-top:3.4mm; }
+
+  /* ── V3 全部下（空は無傷） ──────────────────────── */
+  .v3 .band{
+    padding-top:20mm;
+    background:linear-gradient(180deg,
+      rgba(11,20,48,0) 0%, rgba(11,20,48,.20) 5%, rgba(11,20,48,.48) 13%,
+      rgba(11,20,48,.70) 22%, rgba(11,20,48,.85) 38%, rgba(11,20,48,.92) 60%,
+      rgba(11,20,48,.95) 100%);
+  }
+  .v3 .band .bar{ margin-bottom:4mm; }
+  .v3 .band h1{ color:#fff; font-size:20pt; }
+  .v3 .band .sub{ margin-top:3.2mm; font-size:8.2pt; line-height:1.8;
+    letter-spacing:.07em; color:rgba(255,255,255,.84); }
+  .v3 .devs{ margin-top:5mm; }
+  .v3 .reason{ margin-top:3.6mm; }
+  .v3 .cta{ margin-top:3.8mm; padding-top:3.4mm;
+    border-top:.3mm solid rgba(220,193,137,.5);
+    display:grid; grid-template-columns:1fr 19mm; gap:5.5mm; align-items:center; }
+  .v3 .legal{ margin-top:3.2mm; }
+
+  /* ── V4 左柱・非対称 ───────────────────────────── */
+  .v4 .lead{ position:absolute; top:25mm; left:12mm; width:104mm; z-index:5;
+    border-left:.5mm solid var(--gold); padding-left:6mm; }
+  .v4 .lead h1{ color:var(--ink); font-size:20pt; }
+  .v4 .lead p{ margin-top:3.2mm; font-size:8.2pt; line-height:1.8;
+    letter-spacing:.07em; color:var(--ink-s); }
+  .v4 .band{ padding-top:13mm; display:grid;
+    grid-template-columns:44mm 1fr; gap:7mm; align-items:end; }
+  .v4 .col-l .k{ font-size:6pt; letter-spacing:.28em; color:var(--gold-l);
+    font-weight:700; margin-bottom:2.6mm; }
+  .v4 .col-l ul{ list-style:none; }
+  .v4 .col-l li{ font-family:var(--roman); font-size:11.5pt; letter-spacing:.10em;
+    color:#fff; padding:2mm 0; border-bottom:.3mm solid rgba(255,255,255,.24); }
+  .v4 .col-l li:first-child{ border-top:.3mm solid rgba(255,255,255,.34); }
+  .v4 .col-r .reason{ margin-bottom:3.6mm; }
+  .v4 .col-r .cta{ padding-top:3.4mm; border-top:.3mm solid rgba(220,193,137,.5);
+    display:grid; grid-template-columns:1fr 19mm; gap:5mm; align-items:center; }
+  .v4 .legal{ grid-column:1 / -1; margin-top:3.2mm; }
+
+  .tag{
+    position:absolute; top:0; left:0; background:#A9452F; color:#fff; z-index:9;
+    font-size:6.6pt; font-weight:700; padding:1.6px 7px; letter-spacing:.10em;
+  }
+
+  /* ── V0 採用中のA案（見出し左上・帯は積み） ─────────── */
+  .v0 .lead{ position:absolute; top:25mm; left:12mm; right:12mm; z-index:5; }
+  .v0 .lead .bar{ margin-bottom:4.2mm; }
+  .v0 .lead h1{ color:var(--ink); }
+  .v0 .lead p{ margin-top:3.4mm; font-size:8.4pt; line-height:1.8;
+    letter-spacing:.07em; color:var(--ink-s); max-width:120mm; }
+  .v0 .reason{ margin-top:4mm; }
+  .v0 .cta{ margin-top:4.4mm; padding-top:3.8mm;
+    border-top:.3mm solid rgba(220,193,137,.5);
+    display:grid; grid-template-columns:1fr 19mm; gap:5.5mm; align-items:center; }
+  .v0 .legal{ margin-top:3.4mm; }
+  .tag.ok{ background:#1F6B4A; }
+</style>
+</head>
+<body>
+
+<div class="cap">A案 ／ <span style="color:#8FE0B4">採用中</span> — 見出しは空の左上、以下は下の帯に積む</div>
+<section class="sheet v0">
+  <div class="tag ok">A 採用</div>
+  <img src="assets/hero-v4-daylight.png" alt="銀座とドバイ"><div class="sky"></div>
+  <div class="head">
+    <div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div>
+    <div class="open"><div class="k">日本初・銀座</div><div class="d">10.18</div><div class="w">2026 SUN OPEN</div></div>
+  </div>
+  <div class="lead">
+    <div class="bar"></div>
+    <h1>ドバイを、<em>&ldquo;比べて&rdquo;</em><br>選べる場所ができました。</h1>
+    <p>ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。</p>
+  </div>
+  <div class="band">
+    <ul class="devs"><li>DAMAC</li><li>Ellington</li><li>Beyond</li><li>Amali</li></ul>
+    <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。<b>無理な勧誘は一切いたしません。</b></p>
+    <div class="cta">
+      <div>
+        <h2>ご来場は<em>完全予約制</em>です。ご相談は無料。</h2>
+        <table>
+          <tr><th>会 場</th><td>東京都中央区銀座5-9-1 銀座コティビル <span class="fill">【◯階】</span><br>東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</td></tr>
+          <tr><th>ご予約</th><td><span class="fill">【電話番号】</span>　平日 10:00–19:00　／　LINE <span class="fill">【ID】</span></td></tr>
+        </table>
+      </div>
+      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>LINEでご予約</span></div>
+    </div>
+    <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
+  </div>
+</section>
+
+<!-- ══════════ V2 縦組み ══════════ -->
+<div class="cap">V2 ／ 縦組み <span>— 見出しが右から縦に落ちる。最も日本的で、写真が広く見える</span></div>
+<section class="sheet v2">
+  <div class="tag">V2 縦組み</div>
+  <img src="assets/hero-v4-daylight.png" alt="銀座とドバイ"><div class="sky"></div>
+  <div class="head">
+    <div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div>
+    <div class="open"><div class="k">日本初・銀座</div><div class="d">10.18</div><div class="w">2026 SUN</div></div>
+  </div>
+  <div class="tate">
+    <span class="dot"></span>
+    <h1>ドバイを、<em>比べて</em>選べる<br>場所ができました。</h1>
+    <div class="sub">ドバイ主要デベロッパーが<br>常設で一堂に会する、<br>日本初のショールーム。</div>
+  </div>
+  <div class="band">
+    <ul class="devs"><li>DAMAC</li><li>Ellington</li><li>Beyond</li><li>Amali</li></ul>
+    <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。</p>
+    <div class="cta">
+      <div>
+        <h2>ご来場は<em>完全予約制</em>です。ご相談は無料。</h2>
+        <table>
+          <tr><th>会 場</th><td>東京都中央区銀座5-9-1 銀座コティビル <span class="fill">【◯階】</span><br>東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</td></tr>
+          <tr><th>ご予約</th><td><span class="fill">【電話番号】</span>　平日 10:00–19:00</td></tr>
+        </table>
+      </div>
+      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>LINEでご予約</span></div>
+    </div>
+    <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
+  </div>
+</section>
+
+<!-- ══════════ V3 全部下 ══════════ -->
+<div class="cap">V3 ／ 全部下 <span>— 空に何も置かない。写真が一番きれいに見え、文字は一箇所にまとまる</span></div>
+<section class="sheet v3">
+  <div class="tag">V3 下寄せ</div>
+  <img src="assets/hero-v4-daylight.png" alt="銀座とドバイ"><div class="sky"></div>
+  <div class="head">
+    <div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div>
+    <div class="open"><div class="k">日本初・銀座</div><div class="d">10.18</div><div class="w">2026 SUN OPEN</div></div>
+  </div>
+  <div class="band">
+    <div class="bar"></div>
+    <h1>ドバイを、<em>&ldquo;比べて&rdquo;</em>選べる場所ができました。</h1>
+    <p class="sub">ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。</p>
+    <ul class="devs"><li>DAMAC</li><li>Ellington</li><li>Beyond</li><li>Amali</li></ul>
+    <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。</p>
+    <div class="cta">
+      <div>
+        <h2>ご来場は<em>完全予約制</em>です。ご相談は無料。</h2>
+        <table>
+          <tr><th>会 場</th><td>東京都中央区銀座5-9-1 銀座コティビル <span class="fill">【◯階】</span><br>東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</td></tr>
+          <tr><th>ご予約</th><td><span class="fill">【電話番号】</span>　平日 10:00–19:00</td></tr>
+        </table>
+      </div>
+      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>LINEでご予約</span></div>
+    </div>
+    <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
+  </div>
+</section>
+
+<!-- ══════════ V4 左柱・非対称 ══════════ -->
+<div class="cap">V4 ／ 左柱・非対称 <span>— 4社を縦に積む。雑誌的で、社名が一社ずつ効く</span></div>
+<section class="sheet v4">
+  <div class="tag">V4 左柱</div>
+  <img src="assets/hero-v4-daylight.png" alt="銀座とドバイ"><div class="sky"></div>
+  <div class="head">
+    <div class="brand">EXCEED<small>REAL ESTATE ／ DUBAI</small></div>
+    <div class="open"><div class="k">日本初・銀座</div><div class="d">10.18</div><div class="w">2026 SUN OPEN</div></div>
+  </div>
+  <div class="lead">
+    <h1>ドバイを、<em>&ldquo;比べて&rdquo;</em><br>選べる場所ができました。</h1>
+    <p>ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。</p>
+  </div>
+  <div class="band">
+    <div class="col-l">
+      <div class="k">PERMANENT<br>SHOWROOMS</div>
+      <ul><li>DAMAC</li><li>Ellington</li><li>Beyond</li><li>Amali</li></ul>
+    </div>
+    <div class="col-r">
+      <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。</p>
+      <div class="cta">
+        <div>
+          <h2>ご来場は<em>完全予約制</em>です。</h2>
+          <table>
+            <tr><th>会 場</th><td>銀座5-9-1 銀座コティビル<span class="fill">【◯階】</span><br>「東銀座」駅 徒歩2分</td></tr>
+            <tr><th>ご予約</th><td><span class="fill">【電話番号】</span> 平日 10:00–19:00</td></tr>
+          </table>
+        </div>
+        <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>LINEでご予約</span></div>
+      </div>
+    </div>
+    <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
+  </div>
+</section>
+
+</body>
+</html>
