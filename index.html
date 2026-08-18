@@ -123,7 +123,7 @@
 
   /* ── V2 縦組み ─────────────────────────────────── */
   .v2 .tate{
-    position:absolute; top:22mm; right:12mm; z-index:5;
+    position:absolute; top:30mm; right:12mm; z-index:5;
     writing-mode:vertical-rl; text-orientation:mixed;
     display:flex; flex-direction:row; gap:4.5mm; align-items:flex-start;
   }
@@ -158,7 +158,7 @@
   .v3 .legal{ margin-top:3.2mm; }
 
   /* ── V4 左柱・非対称 ───────────────────────────── */
-  .v4 .lead{ position:absolute; top:25mm; left:12mm; width:104mm; z-index:5;
+  .v4 .lead{ position:absolute; top:35mm; left:12mm; width:104mm; z-index:5;
     border-left:.5mm solid var(--gold); padding-left:6mm; }
   .v4 .lead h1{ color:var(--ink); font-size:20pt; }
   .v4 .lead p{ margin-top:3.2mm; font-size:8.2pt; line-height:1.8;
@@ -182,7 +182,7 @@
   }
 
   /* ── V0 採用中のA案（見出し左上・帯は積み） ─────────── */
-  .v0 .lead{ position:absolute; top:25mm; left:12mm; right:12mm; z-index:5; }
+  .v0 .lead{ position:absolute; top:35mm; left:12mm; right:12mm; z-index:5; }
   .v0 .lead .bar{ margin-bottom:4.2mm; }
   .v0 .lead h1{ color:var(--ink); }
   .v0 .lead p{ margin-top:3.4mm; font-size:8.4pt; line-height:1.8;
@@ -219,6 +219,26 @@
     margin-left:auto; white-space:nowrap;
   }
   body{ padding-top:70px; }
+
+  .toolbar .tb-check{
+    display:flex; align-items:center; gap:7px; font-size:12px; color:#fff;
+    letter-spacing:.04em; cursor:pointer; white-space:nowrap;
+  }
+  .toolbar .tb-check input{ accent-color:#D9B872; width:15px; height:15px; cursor:pointer; }
+  /* ロゴ表示時。高さと幅の両方で抑えて、4社の見えの大きさを揃える */
+  .devs li img{
+    max-height:7mm; max-width:76%; width:auto; object-fit:contain;
+    display:block; margin:0 auto;
+  }
+  .v4 .col-l li img{ max-height:6mm; max-width:92%; margin:0; }
+
+  /* ── ミニ地図（チェックボックスで表示） ── */
+  .minimap{ margin-top:3.4mm; }
+  .minimap svg{ width:100%; height:auto; display:block; }
+  .minimap .mm-note{
+    margin-top:1.4mm; font-size:5.6pt; letter-spacing:.06em;
+    color:rgba(255,255,255,.62);
+  }
   @media print{ .toolbar{ display:none; } body{ padding-top:0; } }
 </style>
 </head>
@@ -242,13 +262,13 @@
     <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。<b>無理な勧誘は一切いたしません。</b></p>
     <div class="cta">
       <div>
-        <h2>ご来場は<em>完全予約制</em>です。ご相談は無料。</h2>
+        <h2><em>LINE公式アカウント</em>、開設しました。</h2>
         <table>
           <tr><th>会 場</th><td>東京都中央区銀座5-9-1 銀座コティビル <span class="fill">【◯階】</span><br>東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</td></tr>
-          <tr><th>ご予約</th><td><span class="fill">【電話番号】</span>　平日 10:00–19:00　／　LINE <span class="fill">【ID】</span></td></tr>
+          <tr><th>開 業</th><td>2026年10月18日（日）　友だち追加で、開業のご案内とドバイ最新物件の情報をお届けします。</td></tr>
         </table>
       </div>
-      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>LINEでご予約</span></div>
+      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>友だち追加</span></div>
     </div>
     <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
   </div>
@@ -273,13 +293,13 @@
     <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。</p>
     <div class="cta">
       <div>
-        <h2>ご来場は<em>完全予約制</em>です。ご相談は無料。</h2>
+        <h2><em>LINE公式アカウント</em>、開設しました。</h2>
         <table>
           <tr><th>会 場</th><td>東京都中央区銀座5-9-1 銀座コティビル <span class="fill">【◯階】</span><br>東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</td></tr>
-          <tr><th>ご予約</th><td><span class="fill">【電話番号】</span>　平日 10:00–19:00</td></tr>
+          <tr><th>開 業</th><td>2026年10月18日（日）　友だち追加で、開業のご案内とドバイ最新物件の情報をお届けします。</td></tr>
         </table>
       </div>
-      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>LINEでご予約</span></div>
+      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>友だち追加</span></div>
     </div>
     <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
   </div>
@@ -302,13 +322,13 @@
     <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。</p>
     <div class="cta">
       <div>
-        <h2>ご来場は<em>完全予約制</em>です。ご相談は無料。</h2>
+        <h2><em>LINE公式アカウント</em>、開設しました。</h2>
         <table>
           <tr><th>会 場</th><td>東京都中央区銀座5-9-1 銀座コティビル <span class="fill">【◯階】</span><br>東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</td></tr>
-          <tr><th>ご予約</th><td><span class="fill">【電話番号】</span>　平日 10:00–19:00</td></tr>
+          <tr><th>開 業</th><td>2026年10月18日（日）　友だち追加で、開業のご案内とドバイ最新物件の情報をお届けします。</td></tr>
         </table>
       </div>
-      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>LINEでご予約</span></div>
+      <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>友だち追加</span></div>
     </div>
     <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
   </div>
@@ -336,13 +356,13 @@
       <p class="reason">一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。</p>
       <div class="cta">
         <div>
-          <h2>ご来場は<em>完全予約制</em>です。</h2>
+          <h2><em>LINE公式アカウント</em>、開設しました。</h2>
           <table>
             <tr><th>会 場</th><td>銀座5-9-1 銀座コティビル<span class="fill">【◯階】</span><br>「東銀座」駅 徒歩2分</td></tr>
-            <tr><th>ご予約</th><td><span class="fill">【電話番号】</span> 平日 10:00–19:00</td></tr>
+            <tr><th>開 業</th><td>2026年10月18日（日）　友だち追加で最新情報をお届けします。</td></tr>
           </table>
         </div>
-        <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>LINEでご予約</span></div>
+        <div class="qr"><img src="assets/line-qr-white.png" alt="LINE QR"><span>友だち追加</span></div>
       </div>
     </div>
     <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
@@ -357,6 +377,12 @@
   <select id="layout-select"></select>
   <span class="tb-label">主見出し ／ Headline</span>
   <select id="headline-select"></select>
+  <span class="tb-label">副見出し ／ Sub</span>
+  <select id="sub-select"></select>
+  <span class="tb-label">リード文 ／ Lead</span>
+  <select id="lead-select"></select>
+  <label class="tb-check"><input type="checkbox" id="logo-toggle"> デベロッパーロゴ</label>
+  <label class="tb-check"><input type="checkbox" id="map-toggle"> 地図</label>
   <span class="tb-note">選択は保存されます</span>
 </div>
 <script>
@@ -486,6 +512,170 @@ const BACKGROUNDS = [
   apply(HEADLINES.some(x => x.id === saved) ? saved : '2');
 
   sel.addEventListener('change', e => apply(e.target.value));
+})();
+
+(function(){
+  /* ── 副見出し ── */
+  const SUBS = [
+    { id:'a', label:'a ／ 現行',
+      t:'ドバイ主要デベロッパーが常設で一堂に会する、日本初のショールーム。この秋、銀座に開きます。' },
+    { id:'b', label:'b ／ 4社を名指しする',
+      t:'DAMAC・Ellington・Beyond・Amali。ドバイ主要4社の常設ショールームが、10月18日、銀座に開きます。' },
+    { id:'c', label:'c ／ 規模を出す',
+      t:'約189㎡。ドバイ主要デベロッパー4社の常設ブースと、2つの商談室。10月18日、銀座に開業します。' },
+    { id:'d', label:'d ／ 何ができるか',
+      t:'ドバイの不動産を、模型と図面で見比べられる場所。日本初のショールームが、銀座に誕生します。' },
+    { id:'e', label:'e ／ 行かずに見られる',
+      t:'現地に行かずに、ドバイが見られる。日本初の常設ショールーム、10月18日 銀座オープン。' },
+    { id:'f', label:'f ／ 前例がない',
+      t:'これまで日本になかった場所です。ドバイ主要デベロッパー4社が、常設で、一堂に。' },
+  ];
+
+  /* ── リード文 ── */
+  const LEADS = [
+    { id:'a', label:'a ／ 現行',
+      t:'一社の資料だけでは、エリアも価格帯も引渡し時期も<b>比べようがありません</b>。模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。' },
+    { id:'b', label:'b ／ 違いを具体で',
+      t:'エリアも価格帯も引渡し時期も、デベロッパーごとに<b>まるで違います</b>。銀座では4社の模型と図面を横に並べて確かめ、そのまま商談室で、日本語でご相談いただけます。' },
+    { id:'c', label:'c ／ 並べないと分からない',
+      t:'「どこがいいか」は、<b>並べてみないと分かりません</b>。ドバイ主要4社のブースを歩いて回り、気になる住戸はその場で最新の販売状況をお調べします。' },
+    { id:'d', label:'d ／ 飛ばなくていい',
+      t:'現地に飛ばなくても、<b>ドバイは見られます</b>。模型、図面、内装仕様、最新の在庫。すべて銀座で、日本語のまま。' },
+    { id:'e', label:'e ／ 常設であること',
+      t:'一日だけの説明会ではありません。<b>常設ですから</b>、何度でも、比べ終わるまでお越しいただけます。' },
+    { id:'f', label:'f ／ 見るだけでいい',
+      t:'買う・買わないの前に、<b>まず見る</b>。それだけのために来ていただいて構いません。' },
+  ];
+
+  const LOGOS = { 'DAMAC':'damac', 'Ellington':'ellington', 'Beyond':'beyond', 'Amali':'amali' };
+
+  function fill(sel, arr){
+    arr.forEach(x => { const o=document.createElement('option');
+      o.value=x.id; o.textContent=x.label; sel.appendChild(o); });
+  }
+  function remember(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function recall(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+
+  /* 副見出し：主見出しセレクタが上書きするので、こちらを後勝ちにする */
+  const subSel = document.getElementById('sub-select');
+  if(subSel){
+    fill(subSel, SUBS);
+    window.__applySub = function(id){
+      const s = SUBS.find(x=>x.id===id) || SUBS[0];
+      document.querySelectorAll('.sheet h1').forEach(h1=>{
+        const el = h1.nextElementSibling;
+        if(el && (el.tagName==='P' || el.classList.contains('sub'))) el.innerHTML = s.t;
+      });
+      remember('ginza-flyer-sub', s.id); subSel.value = s.id;
+    };
+    const sv = recall('ginza-flyer-sub');
+    window.__applySub(SUBS.some(x=>x.id===sv) ? sv : 'a');
+    subSel.addEventListener('change', e=>window.__applySub(e.target.value));
+  }
+
+  const leadSel = document.getElementById('lead-select');
+  if(leadSel){
+    fill(leadSel, LEADS);
+    function applyLead(id){
+      const l = LEADS.find(x=>x.id===id) || LEADS[0];
+      document.querySelectorAll('.reason').forEach(p=>{ p.innerHTML = l.t; });
+      remember('ginza-flyer-lead', l.id); leadSel.value = l.id;
+    }
+    const lv = recall('ginza-flyer-lead');
+    applyLead(LEADS.some(x=>x.id===lv) ? lv : 'a');
+    leadSel.addEventListener('change', e=>applyLead(e.target.value));
+  }
+
+  /* ロゴ切替 */
+  const logoBox = document.getElementById('logo-toggle');
+  if(logoBox){
+    const DEV_LI = '.devs li, .col-l li';
+    document.querySelectorAll(DEV_LI).forEach(li=>{
+      li.dataset.name = li.textContent.trim();
+    });
+    function applyLogos(on){
+      document.querySelectorAll(DEV_LI).forEach(li=>{
+        const key = li.dataset.name;
+        const slug = LOGOS[key];
+        if(on && slug){
+          li.innerHTML = '<img src="assets/logos/'+slug+'-white.png" alt="'+key+'">';
+        } else {
+          li.textContent = key;
+        }
+      });
+      remember('ginza-flyer-logos', on ? '1' : '0');
+      logoBox.checked = on;
+    }
+    applyLogos(recall('ginza-flyer-logos') === '1');
+    logoBox.addEventListener('change', e=>applyLogos(e.target.checked));
+  }
+})();
+
+(function(){
+  /* 銀座コティビル（銀座5-9-1）の位置関係だけを描いた略図。
+     晴海通りを軸に、西＝銀座四丁目/銀座駅、東＝昭和通り/東銀座駅。 */
+  const SVG = `
+<div class="minimap">
+<svg viewBox="0 0 330 118" xmlns="http://www.w3.org/2000/svg" aria-label="銀座コティビル 案内図">
+  <!-- 街区の面 -->
+  <rect x="0" y="0" width="330" height="118" fill="none"/>
+  <g fill="rgba(255,255,255,.05)">
+    <rect x="0"   y="0"  width="72"  height="52"/>
+    <rect x="96"  y="0"  width="132" height="52"/>
+    <rect x="252" y="0"  width="78"  height="52"/>
+    <rect x="0"   y="76" width="72"  height="42"/>
+    <rect x="96"  y="76" width="132" height="42"/>
+    <rect x="252" y="76" width="78"  height="42"/>
+  </g>
+  <!-- 晴海通り -->
+  <rect x="0" y="52" width="330" height="24" fill="rgba(255,255,255,.16)"/>
+  <text x="8" y="67" font-size="7.5" fill="rgba(255,255,255,.85)" letter-spacing="1">晴海通り</text>
+  <!-- 中央通り -->
+  <rect x="72" y="0" width="24" height="118" fill="rgba(255,255,255,.13)"/>
+  <text x="84" y="14" font-size="7" fill="rgba(255,255,255,.8)"
+        transform="rotate(90 84 14)" letter-spacing="1">中央通り</text>
+  <!-- 昭和通り -->
+  <rect x="228" y="0" width="24" height="118" fill="rgba(255,255,255,.13)"/>
+  <text x="240" y="14" font-size="7" fill="rgba(255,255,255,.8)"
+        transform="rotate(90 240 14)" letter-spacing="1">昭和通り</text>
+
+  <!-- 銀座駅 -->
+  <rect x="76" y="56" width="16" height="16" rx="2" fill="#7FA8E8"/>
+  <text x="60" y="88" font-size="7.5" fill="#BBD0F2">銀座駅</text>
+  <!-- 東銀座駅 -->
+  <rect x="232" y="56" width="16" height="16" rx="2" fill="#7FA8E8"/>
+  <text x="214" y="88" font-size="7.5" fill="#BBD0F2">東銀座駅</text>
+
+  <!-- 現在地：銀座コティビル -->
+  <circle cx="176" cy="88" r="6.5" fill="#D9B872"/>
+  <circle cx="176" cy="88" r="11"  fill="none" stroke="#D9B872" stroke-width="1.2" opacity=".55"/>
+  <line x1="176" y1="81" x2="176" y2="70" stroke="#D9B872" stroke-width="1.2"/>
+  <text x="176" y="108" font-size="8" fill="#F0DCAE" text-anchor="middle" letter-spacing=".5">銀座コティビル</text>
+
+  <!-- 方位 -->
+  <text x="318" y="14" font-size="7" fill="rgba(255,255,255,.45)" text-anchor="middle">N</text>
+  <line x1="318" y1="17" x2="318" y2="27" stroke="rgba(255,255,255,.45)" stroke-width="1"/>
+  <path d="M315 20 L318 15 L321 20 Z" fill="rgba(255,255,255,.45)"/>
+</svg>
+<div class="mm-note">東京メトロ日比谷線・都営浅草線「東銀座」駅 徒歩2分／東京メトロ「銀座」駅 徒歩3分</div>
+</div>`;
+
+  const box = document.getElementById('map-toggle');
+  if(!box) return;
+
+  function applyMap(on){
+    document.querySelectorAll('.cta table').forEach(tbl=>{
+      const holder = tbl.parentElement;
+      let mm = holder.querySelector('.minimap');
+      if(on && !mm){ tbl.insertAdjacentHTML('afterend', SVG); }
+      if(!on && mm){ mm.remove(); }
+    });
+    try{ localStorage.setItem('ginza-flyer-map', on ? '1':'0'); }catch(e){}
+    box.checked = on;
+  }
+  let saved=null; try{ saved=localStorage.getItem('ginza-flyer-map'); }catch(e){}
+  applyMap(saved === '1');
+  box.addEventListener('change', e=>applyMap(e.target.checked));
 })();
 </script>
 
