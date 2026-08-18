@@ -1508,5 +1508,88 @@
     }
    }
   ]
+ },
+ {
+  "id": "opening-day",
+  "name": "開店祝い ／ OPENING DAY",
+  "file": "assets/heroes/opening-day.jpg",
+  "noDevs": true,
+  "noDate": true,
+  "note": "⚠️ 校了不可: 硝子のロゴが「ELLINGTION」と誤植（正: ELLINGTON）。PROPERTIES の英字も崩れている。印刷前に必ず生成し直すこと。——構図としては最良の一枚。御祝スタンドが左下に並び、日本人なら一目で「開店」と読める。花は絶対に隠さない（下の帯は使わない）。硝子に日付・社章・4社ロゴが入っているので紙面では繰り返さない。文字は上4割の石壁だけで完結させる。",
+  "layouts": [
+   {
+    "id": "1",
+    "name": "壁面サイン ／ 花を活かし、文字は石壁だけ",
+    "head": {
+     "t": 30,
+     "l": 12,
+     "r": 12,
+     "w": null,
+     "align": "center",
+     "color": "ink",
+     "scrim": 0,
+     "size": 23
+    },
+    "band": {
+     "h": 0,
+     "cols": 1,
+     "pos": "top",
+     "top": 62
+    }
+   },
+   {
+    "id": "2",
+    "name": "壁面完結 ／ すべてを石壁に",
+    "head": {
+     "zone": "band",
+     "color": "ink"
+    },
+    "band": {
+     "h": 0,
+     "cols": 1,
+     "pos": "top"
+    }
+   },
+   {
+    "id": "3",
+    "name": "見出しのみ ／ 連絡先も出さない最小構成",
+    "head": {
+     "t": 30,
+     "l": 12,
+     "r": 12,
+     "w": null,
+     "align": "center",
+     "color": "ink",
+     "scrim": 0,
+     "size": 24
+    },
+    "band": {
+     "h": 0,
+     "cols": 1,
+     "pos": "top",
+     "top": 78
+    }
+   },
+   {
+    "id": "4",
+    "name": "軒下 ／ 硝子の直上に小さく",
+    "head": {
+     "t": 50,
+     "l": 14,
+     "r": null,
+     "w": 92,
+     "align": "left",
+     "color": "ink",
+     "scrim": 0,
+     "size": 16
+    },
+    "band": {
+     "h": 0,
+     "cols": 1,
+     "pos": "top",
+     "top": 64
+    }
+   }
+  ]
  }
 ]
