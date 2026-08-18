@@ -244,7 +244,7 @@ function sheetHTML(img, lay){
     <div class="tag">${img.name.split(' ／')[0]}｜レイアウト${lay.id}</div>
     <img src="${img.file}" alt="${img.name}">
     ${scrim}
-    <div class="band" style="height:${lay.band.h}%;background:${grad(fade.rgb)}">${bandInner}
+    <div class="band" style="padding-top:${Math.round((lay.band.h-30)*0.62)}mm;background:${grad(fade.rgb)}">${bandInner}
       <p class="legal">${LEGAL}</p>
     </div>
     <div class="head" style="color:${headColor}">
