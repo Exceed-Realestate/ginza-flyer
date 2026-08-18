@@ -13,6 +13,24 @@ B5チラシ・レイアウト検討用ページ。
 
 サイズは B5 片面 182 × 257 mm。入稿時は塗り足し3mm（188 × 263 mm）。
 
+## ページ上部のセレクタ
+
+- **背景画像 ／ Background** — ヒーロー画像を切り替える。全バージョンに同時反映
+- **レイアウト ／ Layout** — Version 1〜4 の表示切替（すべて表示も可）
+
+どちらの選択も `localStorage` に保存されるので、再訪時も同じ状態で開く。印刷時はセレクタ自体が消える（`@media print`）。
+
+**背景画像を追加するには** `index.html` 内の `BACKGROUNDS` 配列に1行足すだけ:
+
+```js
+const BACKGROUNDS = [
+  { id:'ginza-vanishing-point',
+    name:'GINZA VANISHING POINT ／ 消失点のドバイ',
+    file:'assets/hero-v4-daylight.png' },
+  // { id:'新しいID', name:'表示名', file:'assets/新しい画像.png' },
+];
+```
+
 ## ⚠️ 校了前の未確定事項
 
 - ショールームの**階数**

@@ -193,6 +193,33 @@
     display:grid; grid-template-columns:1fr 19mm; gap:5.5mm; align-items:center; }
   .v0 .legal{ margin-top:3.4mm; }
   .tag.ok{ background:#1F6B4A; }
+
+  /* ── 背景画像セレクタ（画面用。印刷には出ない） ── */
+  .toolbar{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:#11141B; border-bottom:1px solid rgba(217,184,114,.35);
+    padding:10px 18px; display:flex; align-items:center; gap:16px;
+    font-family:var(--gothic); box-shadow:0 2px 14px rgba(0,0,0,.4);
+  }
+  .toolbar .tb-label{
+    font-size:10px; letter-spacing:.22em; color:#D9B872; font-weight:700;
+    text-transform:uppercase; white-space:nowrap;
+  }
+  .toolbar select{
+    background:#1B1F29; color:#fff; border:1px solid rgba(255,255,255,.22);
+    border-radius:3px; padding:7px 30px 7px 11px; font-size:12.5px;
+    font-family:var(--gothic); letter-spacing:.04em; cursor:pointer;
+    -webkit-appearance:none; appearance:none; min-width:290px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%23D9B872'/></svg>");
+    background-repeat:no-repeat; background-position:right 11px center;
+  }
+  .toolbar select:hover{ border-color:rgba(217,184,114,.6); }
+  .toolbar .tb-note{
+    font-size:10.5px; color:rgba(255,255,255,.42); letter-spacing:.04em;
+    margin-left:auto; white-space:nowrap;
+  }
+  body{ padding-top:70px; }
+  @media print{ .toolbar{ display:none; } body{ padding-top:0; } }
 </style>
 </head>
 <body>
@@ -321,6 +348,87 @@
     <p class="legal">※イメージ画像です。実際の街並み・建物とは異なります。※記載内容は概要であり、個別の物件条件・費用・税務は面談時にご説明します。※海外不動産の購入には為替変動、現地の法制度および税制の変更等のリスクが伴い、将来の収益を保証するものではありません。※各デベロッパーの名称・商標は各社に帰属します。　運営：<u>【日本側 法人名】</u></p>
   </div>
 </section>
+
+
+<div class="toolbar">
+  <span class="tb-label">背景画像 ／ Background</span>
+  <select id="bg-select"></select>
+  <span class="tb-label">レイアウト ／ Layout</span>
+  <select id="layout-select"></select>
+  <span class="tb-note">選択は保存されます</span>
+</div>
+<script>
+/* 背景画像の登録簿。画像を足すときはここに1行足すだけ。 */
+const BACKGROUNDS = [
+  { id:'ginza-vanishing-point',
+    name:'GINZA VANISHING POINT ／ 消失点のドバイ',
+    file:'assets/hero-v4-daylight.png' },
+];
+
+(function(){
+  const sel = document.getElementById('bg-select');
+  BACKGROUNDS.forEach(b => {
+    const o = document.createElement('option');
+    o.value = b.id; o.textContent = b.name; sel.appendChild(o);
+  });
+
+  function apply(id){
+    const bg = BACKGROUNDS.find(b => b.id === id) || BACKGROUNDS[0];
+    document.querySelectorAll('.sheet > img').forEach(img => { img.src = bg.file; });
+    try { localStorage.setItem('ginza-flyer-bg', bg.id); } catch(e){}
+    sel.value = bg.id;
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem('ginza-flyer-bg'); } catch(e){}
+  apply(saved && BACKGROUNDS.some(b => b.id === saved) ? saved : BACKGROUNDS[0].id);
+
+  sel.addEventListener('change', e => apply(e.target.value));
+})();
+
+(function(){
+  /* ── レイアウト切替：シート内の「VERSION N」タグから自動で拾う ── */
+  const sel = document.getElementById('layout-select');
+  if(!sel) return;
+
+  const sheets = [...document.querySelectorAll('.sheet')].map(sheet => {
+    const tag = sheet.querySelector('.tag');
+    const m = tag ? (tag.textContent.match(/VERSION\s*(\d+)/i)) : null;
+    /* 直前の見出しキャプションも一緒に出し入れする */
+    let cap = sheet.previousElementSibling;
+    if(cap && !cap.classList.contains('cap')) cap = null;
+    return { n: m ? m[1] : null, sheet, cap };
+  }).filter(x => x.n);
+
+  if(sheets.length > 1){
+    const all = document.createElement('option');
+    all.value = 'all'; all.textContent = 'すべて表示 ／ All versions';
+    sel.appendChild(all);
+  }
+  sheets.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s.n; o.textContent = 'Version ' + s.n;
+    sel.appendChild(o);
+  });
+
+  function apply(v){
+    sheets.forEach(s => {
+      const on = (v === 'all' || v === s.n);
+      s.sheet.style.display = on ? '' : 'none';
+      if(s.cap) s.cap.style.display = on ? '' : 'none';
+    });
+    try { localStorage.setItem('ginza-flyer-layout', v); } catch(e){}
+    sel.value = v;
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem('ginza-flyer-layout'); } catch(e){}
+  const valid = ['all', ...sheets.map(s => s.n)];
+  apply(valid.includes(saved) ? saved : (sheets.length > 1 ? 'all' : sheets[0].n));
+
+  sel.addEventListener('change', e => apply(e.target.value));
+})();
+</script>
 
 </body>
 </html>
